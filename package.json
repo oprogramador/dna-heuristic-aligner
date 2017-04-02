@@ -1,0 +1,25 @@
+{
+  "name": "dna-heuristic-aligner",
+  "version": "1.0.0",
+  "description": "DNA alignment tool using heuristic algorithms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oprogramador/dna-heuristic-aligner.git"
+  },
+  "keywords": [
+    "dna",
+    "heuristic",
+    "aligner",
+    "alignment"
+  ],
+  "author": "oprogramador",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oprogramador/dna-heuristic-aligner/issues"
+  },
+  "homepage": "https://github.com/oprogramador/dna-heuristic-aligner#readme"
+}
