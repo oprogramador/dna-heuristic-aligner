@@ -40,5 +40,8 @@
     "sinon": "^2.1.0",
     "sinon-as-promised": "^4.0.3",
     "sinon-chai": "^2.9.0"
+  },
+  "dependencies": {
+    "fna-parser": "^1.1.2"
   }
 }
