@@ -43,6 +43,7 @@
     "sinon-chai": "^2.9.0"
   },
   "dependencies": {
-    "fna-parser": "^1.1.2"
+    "fna-parser": "^1.1.2",
+    "lodash": "^4.17.4"
   }
 }
