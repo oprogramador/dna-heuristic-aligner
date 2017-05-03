@@ -1,35 +1,42 @@
 import _ from 'lodash';
 
 function findStart(first, second, positionAtFirst, positionAtSecond) {
-  while (first[positionAtFirst] === second[positionAtSecond] && first[positionAtFirst] && second[positionAtSecond]) {
+  let shift = 0;
+  if (
+    first[positionAtFirst - 1] === second[positionAtSecond - 1] &&
+    first[positionAtFirst - 1] &&
+    second[positionAtSecond - 1]
+  ) {
     positionAtFirst--;
     positionAtSecond--;
+    shift++;
   }
 
   return {
     positionAtFirst,
     positionAtSecond,
+    shift,
   };
 }
 
-function findSimilarGenes(first, second, { maxTimes = 3000 } = {}) {
+function findSimilarGenes(first, second, { maxTimes = 600 } = {}) {
   const sequences = {};
 
   _.times(maxTimes, () => {
     let sequenceLength = 20;
     const start = _.random(first.sequence.length - sequenceLength);
-    let sequence;
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      sequence = first.sequence.substr(start, sequenceLength);
+      const sequenceToSearch = first.sequence.substr(start, sequenceLength);
       sequenceLength++;
-      const position = second.sequence.search(sequence);
-      const { positionAtFirst, positionAtSecond } = findStart(first, second, start, position);
+      const position = second.sequence.search(sequenceToSearch);
       if (position >= 0) {
-        sequences[start] = {
+        const { positionAtFirst, positionAtSecond, shift } =
+          findStart(first.sequence, second.sequence, start, position);
+        sequences[positionAtFirst] = {
           positionAtFirst,
           positionAtSecond,
-          sequence,
+          sequence: first.sequence.substr(positionAtFirst, sequenceToSearch.length + shift),
         };
       } else {
         break;

@@ -29,4 +29,16 @@ describe('findSimilarGenes', () => {
       return null;
     });
   });
+
+  it('returns keys equal to positions', () => {
+    const fna = fs.readFileSync(`${__dirname}/../data/example.fna`).toString();
+    const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
+    const [first, second] = chromosomes;
+
+    const result = findSimilarGenes(first, second);
+
+    _.map(result, (value, key) =>
+      expect(key).to.equal(value.positionAtFirst.toString())
+    );
+  });
 });

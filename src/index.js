@@ -7,7 +7,7 @@ const fna = fs.readFileSync(`${__dirname}/tests/data/example.fna`).toString();
 const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
 
 const [first, second] = chromosomes;
-const sequences = findSimilarGenes(first, second, { maxTimes: 20000 });
+const sequences = findSimilarGenes(first, second, { maxTimes: 200 });
 
 /* eslint-disable no-console */
 console.log(`Sequences length sum: ${sumSequencesLength(sequences)}`);
