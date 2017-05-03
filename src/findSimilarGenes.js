@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-function findSimilarGenes(first, second) {
+function findSimilarGenes(first, second, { maxTimes = 3000 } = {}) {
   const sequences = {};
 
-  _.times(3000, () => {
+  _.times(maxTimes, () => {
     let sequenceLength = 20;
     const start = _.random(first.sequence.length - sequenceLength);
     let sequence;
