@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 function findStart(first, second, positionAtFirst, positionAtSecond) {
   let shift = 0;
-  if (
+  while (
     first[positionAtFirst - 1] === second[positionAtSecond - 1] &&
     first[positionAtFirst - 1] &&
     second[positionAtSecond - 1]
