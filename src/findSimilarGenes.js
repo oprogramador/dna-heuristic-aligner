@@ -14,9 +14,9 @@ function findSimilarGenes(first, second) {
       const position = second.sequence.search(sequence);
       if (position >= 0) {
         sequences[start] = {
-          position,
+          positionAtFirst: start,
+          positionAtSecond: position,
           sequence,
-          start,
         };
       } else {
         break;

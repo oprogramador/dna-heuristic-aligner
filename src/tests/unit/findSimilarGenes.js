@@ -14,4 +14,19 @@ describe('findSimilarGenes', () => {
 
     expect(_.values(result)).to.have.length.at.least(1);
   });
+
+  it('returns repetitions', () => {
+    const fna = fs.readFileSync(`${__dirname}/../data/example.fna`).toString();
+    const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
+    const [first, second] = chromosomes;
+
+    const result = findSimilarGenes(first, second);
+
+    _.values(result).map((value) => {
+      expect(first.sequence.substr(value.positionAtFirst, value.sequence.length)).to.equal(value.sequence);
+      expect(second.sequence.substr(value.positionAtSecond, value.sequence.length)).to.equal(value.sequence);
+
+      return null;
+    });
+  });
 });
