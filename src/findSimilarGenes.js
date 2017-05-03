@@ -1,5 +1,17 @@
 import _ from 'lodash';
 
+function findStart(first, second, positionAtFirst, positionAtSecond) {
+  while (first[positionAtFirst] === second[positionAtSecond] && first[positionAtFirst] && second[positionAtSecond]) {
+    positionAtFirst--;
+    positionAtSecond--;
+  }
+
+  return {
+    positionAtFirst,
+    positionAtSecond,
+  };
+}
+
 function findSimilarGenes(first, second, { maxTimes = 3000 } = {}) {
   const sequences = {};
 
@@ -12,10 +24,11 @@ function findSimilarGenes(first, second, { maxTimes = 3000 } = {}) {
       sequence = first.sequence.substr(start, sequenceLength);
       sequenceLength++;
       const position = second.sequence.search(sequence);
+      const { positionAtFirst, positionAtSecond } = findStart(first, second, start, position);
       if (position >= 0) {
         sequences[start] = {
-          positionAtFirst: start,
-          positionAtSecond: position,
+          positionAtFirst,
+          positionAtSecond,
           sequence,
         };
       } else {
