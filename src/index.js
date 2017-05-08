@@ -3,11 +3,10 @@ import fs from 'fs';
 import parseFNA from 'fna-parser';
 import sumSequencesLength from 'dna-heuristic-aligner/measurers/sumSequencesLength';
 
-const fna = fs.readFileSync(`${__dirname}/tests/data/example.fna`).toString();
-const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
+const first = parseFNA(fs.readFileSync(`${__dirname}/../data/hs_alt_CHM1_1.1_chr1.fa`).toString())[0];
+const second = parseFNA(fs.readFileSync(`${__dirname}/../data/9595_ref_gorGor4_chr1.fa`).toString())[0];
 
-const [first, second] = chromosomes;
-const sequences = findSimilarGenes(first, second, { maxTimes: 20000 });
+const sequences = findSimilarGenes(first, second, { maxTimes: 20 });
 
 /* eslint-disable no-console */
 console.log(`Sequences length sum: ${sumSequencesLength(sequences)}`);

@@ -28,6 +28,9 @@ function findSimilarGenes(first, second, { maxTimes = 600 } = {}) {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       const sequenceToSearch = first.sequence.substr(start, sequenceLength);
+      if (sequenceToSearch.includes('N')) {
+        break;
+      }
       sequenceLength++;
       const position = second.sequence.search(sequenceToSearch);
       if (position >= 0) {
