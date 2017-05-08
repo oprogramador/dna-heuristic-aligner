@@ -19,7 +19,7 @@ function findStart(first, second, positionAtFirst, positionAtSecond) {
   };
 }
 
-function findSimilarGenes(first, second, { maxTimes = 600 } = {}) {
+function findExactGenes(first, second, { maxTimes = 600 } = {}) {
   const sequences = {};
 
   _.times(maxTimes, () => {
@@ -50,4 +50,4 @@ function findSimilarGenes(first, second, { maxTimes = 600 } = {}) {
   return sequences;
 }
 
-export default findSimilarGenes;
+export default findExactGenes;
