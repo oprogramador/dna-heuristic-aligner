@@ -10,7 +10,7 @@ function findStart(first, second, positionAtFirst, positionAtSecond, sequenceLen
       break;
     }
     if (first[positionAtFirst - 1] !== second[positionAtSecond - 1]) {
-      ratio -= 3;
+      ratio -= 5;
     } else {
       ratio++;
     }
