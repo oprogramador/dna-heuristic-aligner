@@ -29,7 +29,7 @@ describe('findSimilarGenes', () => {
       expect(second.sequence.substr(value.positionAtSecond, value.secondSequence.length))
         .to.equal(value.secondSequence);
 
-      expect(stringSimilarity.compareTwoStrings(value.firstSequence, value.secondSequence)).to.be.at.least(0.7);
+      expect(stringSimilarity.compareTwoStrings(value.firstSequence, value.secondSequence)).to.be.at.least(0.6);
 
       return null;
     });

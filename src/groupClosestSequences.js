@@ -1,9 +1,12 @@
 import _ from 'lodash';
+import logger from 'dna-heuristic-aligner/services/logger';
+import os from 'os';
 
 function groupClosestSequences(first, second, sequences, distance) {
   const sequencesAsArray = _.values(sequences);
   const resultAsArray = sequencesAsArray.reduce(
     ({ result, last, toIgnore }, current) => {
+      logger.info({ free: os.freemem() });
       if (!last) {
         return {
           last: current,

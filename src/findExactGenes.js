@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import logger from 'dna-heuristic-aligner/services/logger';
 
 function findStart(first, second, positionAtFirst, positionAtSecond) {
   let shift = 0;
@@ -40,7 +41,8 @@ function findEnd(first, second, positionAtFirst, positionAtSecond) {
 function findExactGenes(first, second, { maxTimes = 600 } = {}) {
   const sequences = {};
 
-  _.times(maxTimes, () => {
+  _.times(maxTimes, (i) => {
+    logger.info({ i });
     const initialLength = 20;
     const start = _.random(first.sequence.length - initialLength);
     const sequenceToSearch = first.sequence.substr(start, initialLength);
@@ -51,7 +53,7 @@ function findExactGenes(first, second, { maxTimes = 600 } = {}) {
     if (position >= 0) {
       const foundStart = findStart(first.sequence, second.sequence, start, position);
       const foundEnd = findEnd(first.sequence, second.sequence, start + initialLength, position + initialLength);
-      sequences[foundStart.positionAtFirst] = {
+      const foundSequence = {
         positionAtFirst: foundStart.positionAtFirst,
         positionAtSecond: foundStart.positionAtSecond,
         sequence: first.sequence.substr(
@@ -59,6 +61,8 @@ function findExactGenes(first, second, { maxTimes = 600 } = {}) {
           sequenceToSearch.length + foundStart.shift + foundEnd.shift
         ),
       };
+      logger.info(foundSequence);
+      sequences[foundStart.positionAtFirst] = foundSequence;
     }
   });
 

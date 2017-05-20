@@ -44,6 +44,7 @@
     "string-similarity": "^1.1.0"
   },
   "dependencies": {
+    "bunyan": "^1.8.10",
     "fna-parser": "^1.1.2",
     "lodash": "^4.17.4"
   }
