@@ -52,7 +52,8 @@ function findExactGenes(first, second, { maxTimes = 600 } = {}) {
     const position = second.sequence.search(sequenceToSearch);
     if (position >= 0) {
       const foundStart = findStart(first.sequence, second.sequence, start, position);
-      const foundEnd = findEnd(first.sequence, second.sequence, start + initialLength, position + initialLength);
+      const initialShift = initialLength - 1;
+      const foundEnd = findEnd(first.sequence, second.sequence, start + initialShift, position + initialShift);
       const foundSequence = {
         positionAtFirst: foundStart.positionAtFirst,
         positionAtSecond: foundStart.positionAtSecond,
