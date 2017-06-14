@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import findExactGenes from 'dna-heuristic-aligner/findExactGenes';
 import fs from 'fs';
 import groupClosestSequences from 'dna-heuristic-aligner/groupClosestSequences';
@@ -10,7 +11,8 @@ const second = parseFNA(fs.readFileSync(`${__dirname}/../data/9595_ref_gorGor4_c
 
 const sequences = findExactGenes(first, second, { maxTimes: 2000 });
 const groupedSequences = groupClosestSequences(first.sequence, second.sequence, sequences, 10);
+const mutatedSequences = _.filter(groupedSequences, group => group.sequenceAtFirst !== group.sequenceAtSecond);
 
 /* eslint-disable no-console */
 logger.info(`Sequences length sum: ${sumSequencesLength(sequences)}`);
-logger.info(groupedSequences);
+logger.info(mutatedSequences);
