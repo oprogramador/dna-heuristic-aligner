@@ -4,7 +4,7 @@ import fs from 'fs';
 import groupClosestSequences from 'dna-heuristic-aligner/groupClosestSequences';
 import logger from 'dna-heuristic-aligner/services/logger';
 import parseFNA from 'fna-parser';
-import saveInArango from 'dna-heuristic-aligner/storage/saveInArango';
+import saveInLevelDB from 'dna-heuristic-aligner/storage/saveInLevelDB';
 import sumSequencesLength from 'dna-heuristic-aligner/measurers/sumSequencesLength';
 
 const first = parseFNA(fs.readFileSync(`${__dirname}/../data/hs_alt_CHM1_1.1_chr1.fa`).toString())[0];
@@ -26,4 +26,10 @@ const additionalInfo = {
   secondSource: 'ftp://ftp.ncbi.nlm.nih.gov/genomes/Gorilla_gorilla/CHR_01/9595_ref_gorGor4_chr1.fa.gz',
   updated: new Date().toISOString(),
 };
-saveInArango(mutatedSequences, additionalInfo);
+const createDatabaseKey = (mainKey, objectKey) => JSON.stringify({
+  firstSource: additionalInfo.firstSource,
+  mainKey,
+  objectKey,
+  secondSource: additionalInfo.secondSource,
+});
+saveInLevelDB(`${__dirname}/../leveldb`)(mutatedSequences, additionalInfo, createDatabaseKey);
