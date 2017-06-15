@@ -11,7 +11,7 @@ const handleDuplicateName = error => (
 
 const databaseName = 'dna';
 
-function saveInArango(resultsObject) {
+function saveInArango(resultsObject, additionalInfo) {
   const db = arangojs({ databaseName: '_system', url: 'http://root:root@localhost:8530' });
 
   const query = `
@@ -26,7 +26,10 @@ function saveInArango(resultsObject) {
     .then(() => db.useDatabase(databaseName))
     .then(() => db.collection('alignments').create())
     .catch(handleDuplicateName)
-    .then(() => _.map(resultsObject, (value, key) => db.query(query, { key, value })))
+    .then(() => _.map(resultsObject, (value, key) => db.query(
+      query,
+      Object.assign({}, { key, value: Object.assign({}, additionalInfo, value) })
+    )))
     .then(() => logger.info(`saved ${_.size(resultsObject)} objects`))
     .catch(error => logger.error(error));
 }
