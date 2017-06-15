@@ -19,7 +19,8 @@ logger.info(`Sequences length sum: ${sumSequencesLength(sequences)}`);
 const mutatedSequencesAsArray = _.filter(groupedSequences, (group, key) => {
   delete groupedSequences[key];
 
-  return group.sequenceAtFirst !== group.sequenceAtSecond;
+  return Math.abs(Math.log(group.sequenceAtFirst.length / group.sequenceAtSecond.length)) < 0.5 &&
+    group.sequenceAtFirst !== group.sequenceAtSecond;
 });
 const mutatedSequences = _.zipObject(
   mutatedSequencesAsArray.map(alignment => alignment.positionAtFirst),
