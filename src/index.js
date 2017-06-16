@@ -4,11 +4,16 @@ import fs from 'fs';
 import groupClosestSequences from 'dna-heuristic-aligner/groupClosestSequences';
 import logger from 'dna-heuristic-aligner/services/logger';
 import parseFNA from 'fna-parser';
+import process from 'process';
 import saveInLevelDB from 'dna-heuristic-aligner/storage/saveInLevelDB';
 import sumSequencesLength from 'dna-heuristic-aligner/measurers/sumSequencesLength';
 
-const first = parseFNA(fs.readFileSync(`${__dirname}/../data/hs_alt_CHM1_1.1_chr1.fa`).toString())[0];
-const second = parseFNA(fs.readFileSync(`${__dirname}/../data/9595_ref_gorGor4_chr1.fa`).toString())[0];
+const firstSource = process.argv[2];
+const secondSource = process.argv[3];
+const firstPath = process.argv[4];
+const secondPath = process.argv[5];
+const first = parseFNA(fs.readFileSync(`${__dirname}/../data/${firstPath}`).toString())[0];
+const second = parseFNA(fs.readFileSync(`${__dirname}/../data/${secondPath}`).toString())[0];
 
 const sequences = findExactGenes(first, second, { maxTimes: 1000 });
 const groupedSequences = groupClosestSequences(first.sequence, second.sequence, sequences, 10);
@@ -27,14 +32,14 @@ const mutatedSequences = _.zipObject(
   mutatedSequencesAsArray
 );
 const additionalInfo = {
-  firstSource: 'ftp://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_01/hs_alt_CHM1_1.1_chr1.fa.gz',
-  secondSource: 'ftp://ftp.ncbi.nlm.nih.gov/genomes/Gorilla_gorilla/CHR_01/9595_ref_gorGor4_chr1.fa.gz',
+  firstSource,
+  secondSource,
   updated: new Date().toISOString(),
 };
 const createDatabaseKey = (mainKey, objectKey) => JSON.stringify({
-  firstSource: additionalInfo.firstSource,
+  firstSource,
   mainKey,
   objectKey,
-  secondSource: additionalInfo.secondSource,
+  secondSource,
 });
 saveInLevelDB(`${__dirname}/../leveldb`)(mutatedSequences, additionalInfo, createDatabaseKey);
