@@ -4,13 +4,32 @@ import findExactGenes from 'dna-heuristic-aligner/findExactGenes';
 import fs from 'fs';
 import parseFNA from 'fna-parser';
 
+const generateFakeIntegerFunction = () => {
+  let i = 0;
+
+  const generate = () => {
+    i++;
+
+    return i;
+  };
+
+  return generate;
+};
+
 describe('findExactGenes', () => {
   it('returns at least one value', () => {
     const fna = fs.readFileSync(`${__dirname}/../data/example.fna`).toString();
     const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
     const [first, second] = chromosomes;
 
-    const result = findExactGenes(first, second);
+    const result = findExactGenes(
+      first.sequence,
+      second.sequence,
+      {
+        generateRandomInteger: generateFakeIntegerFunction(),
+        maxTimes: 1000,
+      }
+    );
 
     expect(_.values(result)).to.have.length.at.least(1);
   });
@@ -20,7 +39,14 @@ describe('findExactGenes', () => {
     const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
     const [first, second] = chromosomes;
 
-    const result = findExactGenes(first, second);
+    const result = findExactGenes(
+      first.sequence,
+      second.sequence,
+      {
+        generateRandomInteger: generateFakeIntegerFunction(),
+        maxTimes: 1000,
+      }
+    );
 
     _.values(result).map((value) => {
       expect(first.sequence.substr(value.positionAtFirst, value.sequence.length)).to.equal(value.sequence);
@@ -35,7 +61,14 @@ describe('findExactGenes', () => {
     const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
     const [first, second] = chromosomes;
 
-    const result = findExactGenes(first, second);
+    const result = findExactGenes(
+      first.sequence,
+      second.sequence,
+      {
+        generateRandomInteger: generateFakeIntegerFunction(),
+        maxTimes: 1000,
+      }
+    );
 
     _.map(result, (value, key) =>
       expect(key).to.equal(value.positionAtFirst.toString())

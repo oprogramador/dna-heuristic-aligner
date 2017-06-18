@@ -38,32 +38,34 @@ function findEnd(first, second, positionAtFirst, positionAtSecond) {
     shift,
   };
 }
-function findExactGenes(first, second, { maxTimes = 600 } = {}) {
+function findExactGenes(first, second, { generateRandomInteger, maxTimes = 600 } = {}) {
   const sequences = {};
 
   _.times(maxTimes, (i) => {
     logger.info({ i });
-    const initialLength = 20;
-    const start = _.random(first.sequence.length - initialLength);
-    const sequenceToSearch = first.sequence.substr(start, initialLength);
+    const initialLength = 10;
+    const start = generateRandomInteger() % first.length;
+    const sequenceToSearch = first.substr(start, initialLength);
     if (sequenceToSearch.includes('N')) {
       return;
     }
-    const position = second.sequence.search(sequenceToSearch);
+    const position = second.search(sequenceToSearch);
     if (position >= 0) {
-      const foundStart = findStart(first.sequence, second.sequence, start, position);
+      const foundStart = findStart(first, second, start, position);
       const initialShift = initialLength - 1;
-      const foundEnd = findEnd(first.sequence, second.sequence, start + initialShift, position + initialShift);
+      const foundEnd = findEnd(first, second, start + initialShift, position + initialShift);
       const foundSequence = {
         positionAtFirst: foundStart.positionAtFirst,
         positionAtSecond: foundStart.positionAtSecond,
-        sequence: first.sequence.substr(
+        sequence: first.substr(
           foundStart.positionAtFirst,
           sequenceToSearch.length + foundStart.shift + foundEnd.shift
         ),
       };
-      logger.info(foundSequence);
-      sequences[foundStart.positionAtFirst] = foundSequence;
+      if (foundSequence.sequence.length >= initialLength) {
+        logger.info(foundSequence);
+        sequences[foundStart.positionAtFirst] = foundSequence;
+      }
     }
   });
 
