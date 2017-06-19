@@ -1,43 +1,7 @@
+import { findEnd, findStart } from 'dna-heuristic-aligner/extending';
 import _ from 'lodash';
 import logger from 'dna-heuristic-aligner/services/logger';
 
-function findStart(first, second, positionAtFirst, positionAtSecond) {
-  let shift = 0;
-  while (
-    first[positionAtFirst - 1] === second[positionAtSecond - 1] &&
-    first[positionAtFirst - 1] &&
-    second[positionAtSecond - 1]
-  ) {
-    positionAtFirst--;
-    positionAtSecond--;
-    shift++;
-  }
-
-  return {
-    positionAtFirst,
-    positionAtSecond,
-    shift,
-  };
-}
-
-function findEnd(first, second, positionAtFirst, positionAtSecond) {
-  let shift = 0;
-  while (
-    first[positionAtFirst + 1] === second[positionAtSecond + 1] &&
-    first[positionAtFirst + 1] &&
-    second[positionAtSecond + 1]
-  ) {
-    positionAtFirst++;
-    positionAtSecond++;
-    shift++;
-  }
-
-  return {
-    positionAtFirst,
-    positionAtSecond,
-    shift,
-  };
-}
 function findExactGenes(first, second, { generateRandomInteger, maxTimes = 600 } = {}) {
   const sequences = {};
 
@@ -51,9 +15,9 @@ function findExactGenes(first, second, { generateRandomInteger, maxTimes = 600 }
     }
     const position = second.search(sequenceToSearch);
     if (position >= 0) {
-      const foundStart = findStart(first, second, start, position);
+      const foundStart = findStart(first, second, start, position, { maxLeak: 0 });
       const initialShift = initialLength - 1;
-      const foundEnd = findEnd(first, second, start + initialShift, position + initialShift);
+      const foundEnd = findEnd(first, second, start + initialShift, position + initialShift, { maxLeak: 0 });
       const foundSequence = {
         positionAtFirst: foundStart.positionAtFirst,
         positionAtSecond: foundStart.positionAtSecond,

@@ -138,7 +138,7 @@ describe('extending', () => {
         shift,
       } = findStart(first, second, geneK.length + 3, geneM.length + 3);
 
-      expect(shift).to.equal(-3);
+      expect(shift).to.equal(3);
       expect(positionAtFirst).to.equal(geneK.length);
       expect(positionAtSecond).to.equal(geneM.length);
     });
@@ -161,7 +161,7 @@ describe('extending', () => {
         shift,
       } = findStart(first, second, geneK.length + 3, geneM.length + 3);
 
-      expect(shift).to.equal(-3);
+      expect(shift).to.equal(3);
       expect(positionAtFirst).to.equal(geneK.length);
       expect(positionAtSecond).to.equal(geneM.length);
     });
@@ -184,7 +184,7 @@ describe('extending', () => {
         shift,
       } = findStart(first, second, geneK.length + 3, geneM.length + 3);
 
-      expect(shift).to.equal(-3);
+      expect(shift).to.equal(3);
       expect(positionAtFirst).to.equal(geneK.length);
       expect(positionAtSecond).to.equal(geneM.length);
     });
@@ -207,7 +207,7 @@ describe('extending', () => {
         shift,
       } = findStart(first, second, geneK.length + 3, geneM.length + 3);
 
-      expect(shift).to.equal(-3);
+      expect(shift).to.equal(3);
       expect(positionAtFirst).to.equal(geneK.length);
       expect(positionAtSecond).to.equal(geneM.length);
     });
@@ -230,7 +230,7 @@ describe('extending', () => {
         shift,
       } = findStart(first, second, geneK.length + 3, geneM.length + 3);
 
-      expect(shift).to.equal(-3);
+      expect(shift).to.equal(3);
       expect(positionAtFirst).to.equal(geneK.length);
       expect(positionAtSecond).to.equal(geneM.length);
     });

@@ -1,7 +1,4 @@
-const maxLeak = 5;
-const minLengthAfterLeak = 10;
-
-const extend = (first, second, positionAtFirst, positionAtSecond, direction) => {
+const extend = (first, second, positionAtFirst, positionAtSecond, { direction, maxLeak, minLengthAfterLeak }) => {
   let shift = 0;
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -12,7 +9,7 @@ const extend = (first, second, positionAtFirst, positionAtSecond, direction) => 
     ) {
       positionAtFirst += direction;
       positionAtSecond += direction;
-      shift += direction;
+      shift++;
     } else {
       const newPosition = positionAtFirst + maxLeak * direction;
       const alignmentAfterLeak = first.substr(newPosition, minLengthAfterLeak);
@@ -23,7 +20,7 @@ const extend = (first, second, positionAtFirst, positionAtSecond, direction) => 
       ) {
         positionAtSecond = newPositionAtSecond;
         positionAtFirst = newPosition;
-        shift += maxLeak * direction;
+        shift += maxLeak;
       } else {
         break;
       }
@@ -37,11 +34,11 @@ const extend = (first, second, positionAtFirst, positionAtSecond, direction) => 
   };
 };
 
-const findStart = (first, second, positionAtFirst, positionAtSecond) =>
-  extend(first, second, positionAtFirst, positionAtSecond, -1);
+const findStart = (first, second, positionAtFirst, positionAtSecond, { maxLeak = 5, minLengthAfterLeak = 10 } = {}) =>
+  extend(first, second, positionAtFirst, positionAtSecond, { direction: -1, maxLeak, minLengthAfterLeak });
 
-const findEnd = (first, second, positionAtFirst, positionAtSecond) =>
-  extend(first, second, positionAtFirst, positionAtSecond, 1);
+const findEnd = (first, second, positionAtFirst, positionAtSecond, { maxLeak = 5, minLengthAfterLeak = 10 } = {}) =>
+  extend(first, second, positionAtFirst, positionAtSecond, { direction: 1, maxLeak, minLengthAfterLeak });
 
 export {
   findEnd,
