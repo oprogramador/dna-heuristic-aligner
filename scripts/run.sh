@@ -13,6 +13,7 @@ function cutExtension() {
   sed 's/\.gz//g'
 }
 
+strategy=$3
 firstPath=`echo $1 | createPath`
 secondPath=`echo $2 | createPath`
 firstFinalPath=`echo $firstPath | cutExtension`
@@ -28,4 +29,4 @@ if [ ! -f $secondFinalPath ]; then
   gunzip $secondPath
 fi
 
-npm start -- $1 $2 $firstFinalPath $secondFinalPath
+npm start -- $1 $2 $firstFinalPath $secondFinalPath $strategy

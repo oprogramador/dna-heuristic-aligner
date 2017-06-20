@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import findMutationsWithJoining from 'dna-heuristic-aligner/findMutationsWithJoining';
+import findMutationsWithOnlyExtending from 'dna-heuristic-aligner/findMutationsWithOnlyExtending';
 import fs from 'fs';
 import parseFNA from 'fna-parser';
 import process from 'process';
@@ -9,10 +10,17 @@ const firstSource = process.argv[2];
 const secondSource = process.argv[3];
 const firstPath = process.argv[4];
 const secondPath = process.argv[5];
+const strategyName = process.argv[6];
 const first = parseFNA(fs.readFileSync(`${__dirname}/../data/${firstPath}`).toString())[0];
 const second = parseFNA(fs.readFileSync(`${__dirname}/../data/${secondPath}`).toString())[0];
 
-const mutatedSequences = findMutationsWithJoining(
+const availableStrategies = {
+  findMutationsWithJoining,
+  findMutationsWithOnlyExtending,
+};
+const strategy = availableStrategies[strategyName];
+
+const mutatedSequences = strategy(
   first.sequence,
   second.sequence,
   {
