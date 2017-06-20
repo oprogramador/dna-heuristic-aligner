@@ -7,12 +7,12 @@ const localRange = 100;
 function findMutationsWithExtendingAndLookingNear(first, second, { generateRandomInteger, maxTimes = 600 } = {}) {
   const sequences = {};
   let start;
-  let isFoundLastTime = false;
+  let lastMutation;
 
   _.times(maxTimes, (i) => {
     logger.info({ i });
     const initialLength = 10;
-    const shouldSearchLocally = isFoundLastTime && generateRandomInteger() % 3 !== 0;
+    const shouldSearchLocally = lastMutation && generateRandomInteger() % 3 !== 0;
     if (shouldSearchLocally) {
       start += -localRange / 2 + generateRandomInteger() % localRange;
     } else {
@@ -56,11 +56,9 @@ function findMutationsWithExtendingAndLookingNear(first, second, { generateRando
         foundSequence.sequenceAtFirst.length >= initialLength &&
         foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
       ) {
-        isFoundLastTime = true;
+        lastMutation = foundSequence.positionAtFirst;
         logger.info(foundSequence);
         sequences[foundStart.positionAtFirst] = foundSequence;
-      } else {
-        isFoundLastTime = false;
       }
     }
   });
