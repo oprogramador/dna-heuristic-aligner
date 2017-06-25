@@ -12,10 +12,10 @@ aligner=$3
 
 if [ "$aligner" == 'blast' ]
 then
-  blastn -db $dataDir/$first -query $dataDir/$second
+  blastn -db $dataDir/$second -query $dataDir/$first
 elif [ "$aligner" == 'blat' ]
 then
-  blat $dataDir/$first $dataDir/$second output.psl
+  blat $dataDir/$second $dataDir/$first $dataDir/output.psl
 elif [ "$aligner" == 'hr' ]
 then
   npm start -- $first $second $first $second findMutationsWithOnlyExtending
