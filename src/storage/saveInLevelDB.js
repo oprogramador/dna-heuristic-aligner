@@ -8,10 +8,12 @@ const saveInLevelDB = databaseDirectory => (resultsObject, additionalInfo, creat
 
   return Promise.all(
     _.map(resultsObject, (object, mainKey) => Promise.all(
-      _.map(Object.assign({}, additionalInfo, object), (value, objectKey) => db.put(
-        createDatabaseKey(mainKey, objectKey),
-        value
-      ))
+      _.map(Object.assign({}, additionalInfo, object), (value, objectKey) => {
+        const key = createDatabaseKey(mainKey, objectKey);
+
+        return db.put(key, value)
+          .then(() => logger.info(`saved ${key}`));
+      })
     ))
   )
   .then(() => logger.info(`saved ${_.size(resultsObject)} objects`))
