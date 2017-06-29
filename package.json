@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "bunyan": "^1.8.10",
+    "diff": "^3.2.0",
     "fna-parser": "^1.1.2",
     "level-promise": "^2.1.1",
     "leveldown": "^1.7.2",
