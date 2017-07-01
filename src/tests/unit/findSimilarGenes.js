@@ -2,13 +2,13 @@ import _ from 'lodash';
 import expect from 'dna-heuristic-aligner/tests/expect';
 import findSimilarGenes from 'dna-heuristic-aligner/findSimilarGenes';
 import fs from 'fs';
-import parseFNA from 'fna-parser';
+import parseFASTA from 'fasta-to-object-parser';
 import stringSimilarity from 'string-similarity';
 
 describe('findSimilarGenes', () => {
   it('returns at least one value', () => {
     const fna = fs.readFileSync(`${__dirname}/../data/example.fna`).toString();
-    const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
+    const chromosomes = parseFASTA(fna).filter(item => item.chromosome === 'X');
     const [first, second] = chromosomes;
 
     const result = findSimilarGenes(first, second);
@@ -18,7 +18,7 @@ describe('findSimilarGenes', () => {
 
   it('returns partial repetitions', () => {
     const fna = fs.readFileSync(`${__dirname}/../data/example.fna`).toString();
-    const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
+    const chromosomes = parseFASTA(fna).filter(item => item.chromosome === 'X');
     const [first, second] = chromosomes;
 
     const result = findSimilarGenes(first, second);
@@ -37,7 +37,7 @@ describe('findSimilarGenes', () => {
 
   it('returns keys equal to positions', () => {
     const fna = fs.readFileSync(`${__dirname}/../data/example.fna`).toString();
-    const chromosomes = parseFNA(fna).filter(item => item.chromosome === 'X');
+    const chromosomes = parseFASTA(fna).filter(item => item.chromosome === 'X');
     const [first, second] = chromosomes;
 
     const result = findSimilarGenes(first, second);

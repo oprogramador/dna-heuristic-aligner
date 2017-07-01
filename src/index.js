@@ -4,7 +4,7 @@ import findMutationsWithJoining from 'dna-heuristic-aligner/findMutationsWithJoi
 import findMutationsWithOnlyExtending from 'dna-heuristic-aligner/findMutationsWithOnlyExtending';
 import fs from 'fs';
 import logger from 'dna-heuristic-aligner/services/logger';
-import parseFNA from 'fna-parser';
+import parseFASTA from 'fasta-to-object-parser';
 import process from 'process';
 import saveInLevelDB from 'dna-heuristic-aligner/storage/saveInLevelDB';
 import stringSimilarity from 'string-similarity';
@@ -15,8 +15,8 @@ const secondSource = process.argv[3];
 const firstPath = process.argv[4];
 const secondPath = process.argv[5];
 const strategyName = process.argv[6];
-const first = parseFNA(fs.readFileSync(`${__dirname}/../data/${firstPath}`).toString())[0];
-const second = parseFNA(fs.readFileSync(`${__dirname}/../data/${secondPath}`).toString())[0];
+const first = parseFASTA(fs.readFileSync(`${__dirname}/../data/${firstPath}`).toString())[0];
+const second = parseFASTA(fs.readFileSync(`${__dirname}/../data/${secondPath}`).toString())[0];
 
 const availableStrategies = {
   findMutationsWithExtendingAndLookingNear,
