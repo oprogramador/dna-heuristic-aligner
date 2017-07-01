@@ -4,34 +4,34 @@ function findMutationsInsideAlignment(alignment) {
   const diff = diffChars(alignment.sequenceAtFirst, alignment.sequenceAtSecond);
 
   return diff.reduce(
-    (accumulator, current) => {
+    ({ lastDiff, lastMutation, mutations, positionAtFirst, positionAtSecond }, current) => {
       if (
-        accumulator.lastDiff &&
+        lastDiff &&
         (current.added || current.removed) &&
-        (accumulator.lastDiff.added || accumulator.lastDiff.removed)
+        (lastDiff.added || lastDiff.removed)
       ) {
-        delete accumulator.mutations[accumulator.lastMutation.positionAtFirst];
+        delete mutations[lastMutation.positionAtFirst];
 
         const mutation = {
-          positionAtFirst: accumulator.lastMutation.positionAtFirst,
-          positionAtSecond: accumulator.lastMutation.positionAtSecond,
-          sequenceAtFirst: accumulator.lastMutation.sequenceAtFirst + (current.deleted ? current.value : ''),
-          sequenceAtSecond: accumulator.lastMutation.sequenceAtSecond + (current.added ? current.value : ''),
+          positionAtFirst: lastMutation.positionAtFirst,
+          positionAtSecond: lastMutation.positionAtSecond,
+          sequenceAtFirst: lastMutation.sequenceAtFirst + (current.deleted ? current.value : ''),
+          sequenceAtSecond: lastMutation.sequenceAtSecond + (current.added ? current.value : ''),
           type: 'replacement',
         };
 
         return {
           lastDiff: current,
           lastMutation: mutation,
-          mutations: Object.assign({}, accumulator.mutations, { [accumulator.lastMutation.positionAtFirst]: mutation }),
-          positionAtFirst: accumulator.positionAtFirst + (current.deleted ? current.count : 0),
-          positionAtSecond: accumulator.positionAtSecond + (current.added ? current.count : 0),
+          mutations: Object.assign({}, mutations, { [lastMutation.positionAtFirst]: mutation }),
+          positionAtFirst: positionAtFirst + (current.deleted ? current.count : 0),
+          positionAtSecond: positionAtSecond + (current.added ? current.count : 0),
         };
       }
       if (current.added) {
         const mutation = {
-          positionAtFirst: accumulator.positionAtFirst,
-          positionAtSecond: accumulator.positionAtSecond,
+          positionAtFirst,
+          positionAtSecond,
           sequenceAtFirst: '',
           sequenceAtSecond: current.value,
           type: 'insertion',
@@ -40,15 +40,15 @@ function findMutationsInsideAlignment(alignment) {
         return {
           lastDiff: current,
           lastMutation: mutation,
-          mutations: Object.assign({}, accumulator.mutations, { [accumulator.positionAtFirst]: mutation }),
-          positionAtFirst: accumulator.positionAtFirst,
-          positionAtSecond: accumulator.positionAtSecond + current.count,
+          mutations: Object.assign({}, mutations, { [positionAtFirst]: mutation }),
+          positionAtFirst,
+          positionAtSecond: positionAtSecond + current.count,
         };
       }
       if (current.removed) {
         const mutation = {
-          positionAtFirst: accumulator.positionAtFirst,
-          positionAtSecond: accumulator.positionAtSecond,
+          positionAtFirst,
+          positionAtSecond,
           sequenceAtFirst: current.value,
           sequenceAtSecond: '',
           type: 'deletion',
@@ -57,17 +57,17 @@ function findMutationsInsideAlignment(alignment) {
         return {
           lastDiff: current,
           lastMutation: mutation,
-          mutations: Object.assign({}, accumulator.mutations, { [accumulator.positionAtFirst]: mutation }),
-          positionAtFirst: accumulator.positionAtFirst + current.count,
-          positionAtSecond: accumulator.positionAtSecond,
+          mutations: Object.assign({}, mutations, { [positionAtFirst]: mutation }),
+          positionAtFirst: positionAtFirst + current.count,
+          positionAtSecond,
         };
       }
 
       return {
         lastDiff: current,
-        mutations: accumulator.mutations,
-        positionAtFirst: accumulator.positionAtFirst + current.count,
-        positionAtSecond: accumulator.positionAtSecond + current.count,
+        mutations,
+        positionAtFirst: positionAtFirst + current.count,
+        positionAtSecond: positionAtSecond + current.count,
       };
     },
     {
