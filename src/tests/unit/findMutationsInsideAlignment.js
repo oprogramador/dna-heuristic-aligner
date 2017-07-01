@@ -56,11 +56,11 @@ describe('findMutationsInsideAlignment', () => {
     expect(findMutationsInsideAlignment(alignment)).to.deep.equal(expected);
   });
 
-  it.skip('finds a replacement', () => {
+  it('finds a replacement', () => {
     const subsequenceA = 'TAATTAGTCAAAGCTT';
     const subsequenceB = 'TTGTGAGCACCAACCCGAATCGTG';
     const original = 'C';
-    const replaced = 'TTA';
+    const replaced = 'GGG';
     const alignment = {
       positionAtFirst: 123,
       positionAtSecond: 492,
@@ -85,7 +85,7 @@ describe('findMutationsInsideAlignment', () => {
     expect(findMutationsInsideAlignment(alignment)).to.deep.equal(expected);
   });
 
-  it.skip('finds multiple mutations', () => {
+  it('finds multiple mutations', () => {
     const subsequenceA = 'GTGTAAATGAGACG';
     const subsequenceB = 'TTATTAGCGAGTGGCGCA';
     const subsequenceC = 'ATATAAGCTTTGAAAAAGATCCGT';
@@ -93,7 +93,7 @@ describe('findMutationsInsideAlignment', () => {
     const subsequenceE = 'CGTTCATTGTGCCGAGAGAGGC';
     const subsequenceF = 'TTCGACTTGCGCAACATACTTTCAGGAA';
     const insertedA = 'GA';
-    const deletedB = 'CAT';
+    const deletedB = 'CGG';
     const originalC = 'GG';
     const replacedC = 'ATT';
     const insertedD = 'G';

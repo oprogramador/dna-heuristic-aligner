@@ -5,6 +5,29 @@ function findMutationsInsideAlignment(alignment) {
 
   return diff.reduce(
     (accumulator, current) => {
+      if (
+        accumulator.lastDiff &&
+        (current.added || current.removed) &&
+        (accumulator.lastDiff.added || accumulator.lastDiff.removed)
+      ) {
+        delete accumulator.mutations[accumulator.lastMutation.positionAtFirst];
+
+        const mutation = {
+          positionAtFirst: accumulator.lastMutation.positionAtFirst,
+          positionAtSecond: accumulator.lastMutation.positionAtSecond,
+          sequenceAtFirst: accumulator.lastMutation.sequenceAtFirst + (current.deleted ? current.value : ''),
+          sequenceAtSecond: accumulator.lastMutation.sequenceAtSecond + (current.added ? current.value : ''),
+          type: 'replacement',
+        };
+
+        return {
+          lastDiff: current,
+          lastMutation: mutation,
+          mutations: Object.assign({}, accumulator.mutations, { [accumulator.lastMutation.positionAtFirst]: mutation }),
+          positionAtFirst: accumulator.positionAtFirst + (current.deleted ? current.count : 0),
+          positionAtSecond: accumulator.positionAtSecond + (current.added ? current.count : 0),
+        };
+      }
       if (current.added) {
         const mutation = {
           positionAtFirst: accumulator.positionAtFirst,
@@ -15,12 +38,14 @@ function findMutationsInsideAlignment(alignment) {
         };
 
         return {
-          last: current,
+          lastDiff: current,
+          lastMutation: mutation,
           mutations: Object.assign({}, accumulator.mutations, { [accumulator.positionAtFirst]: mutation }),
           positionAtFirst: accumulator.positionAtFirst,
           positionAtSecond: accumulator.positionAtSecond + current.count,
         };
-      } else if (current.removed) {
+      }
+      if (current.removed) {
         const mutation = {
           positionAtFirst: accumulator.positionAtFirst,
           positionAtSecond: accumulator.positionAtSecond,
@@ -30,7 +55,8 @@ function findMutationsInsideAlignment(alignment) {
         };
 
         return {
-          last: current,
+          lastDiff: current,
+          lastMutation: mutation,
           mutations: Object.assign({}, accumulator.mutations, { [accumulator.positionAtFirst]: mutation }),
           positionAtFirst: accumulator.positionAtFirst + current.count,
           positionAtSecond: accumulator.positionAtSecond,
@@ -38,14 +64,15 @@ function findMutationsInsideAlignment(alignment) {
       }
 
       return {
-        last: current,
+        lastDiff: current,
         mutations: accumulator.mutations,
         positionAtFirst: accumulator.positionAtFirst + current.count,
         positionAtSecond: accumulator.positionAtSecond + current.count,
       };
     },
     {
-      last: null,
+      lastDiff: null,
+      lastMutation: null,
       mutations: {},
       positionAtFirst: alignment.positionAtFirst,
       positionAtSecond: alignment.positionAtSecond,
