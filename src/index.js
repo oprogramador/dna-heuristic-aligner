@@ -10,13 +10,14 @@ import saveInLevelDB from 'dna-heuristic-aligner/storage/saveInLevelDB';
 import stringSimilarity from 'string-similarity';
 import sumSimilarity from 'dna-heuristic-aligner/measurers/sumSimilarity';
 
+const dataDir = process.env.DNA_DATA_DIR;
 const firstSource = process.argv[2];
 const secondSource = process.argv[3];
 const firstPath = process.argv[4];
 const secondPath = process.argv[5];
 const strategyName = process.argv[6];
-const first = parseFASTA(fs.readFileSync(`${__dirname}/../data/${firstPath}`).toString())[0];
-const second = parseFASTA(fs.readFileSync(`${__dirname}/../data/${secondPath}`).toString())[0];
+const first = parseFASTA(fs.readFileSync(`${dataDir}/${firstPath}`).toString())[0];
+const second = parseFASTA(fs.readFileSync(`${dataDir}/${secondPath}`).toString())[0];
 
 const availableStrategies = {
   findMutationsWithExtendingAndLookingNear,
