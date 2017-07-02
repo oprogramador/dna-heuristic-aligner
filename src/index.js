@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import findMutationsInsideAlignment from 'dna-heuristic-aligner/findMutationsInsideAlignment';
 import findMutationsWithExtendingAndLookingNear from 'dna-heuristic-aligner/findMutationsWithExtendingAndLookingNear';
 import findMutationsWithJoining from 'dna-heuristic-aligner/findMutationsWithJoining';
 import findMutationsWithOnlyExtending from 'dna-heuristic-aligner/findMutationsWithOnlyExtending';
@@ -34,6 +35,9 @@ const mutatedSequences = strategy(
     maxTimes: 1000,
   }
 );
+_.map(mutatedSequences, (sequence) => {
+  sequence.exactMutations = findMutationsInsideAlignment(sequence);
+});
 
 const similarity = sumSimilarity(mutatedSequences, stringSimilarity.compareTwoStrings);
 logger.info({ similarity });
