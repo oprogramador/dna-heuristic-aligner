@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "create-project-symlink": "scripts/create-project-symlink.sh",
+    "generateMutations": "node -r babel-register src/command/generateMutations.js",
     "generateRandomSequence": "node -r babel-register src/command/generateRandomSequence.js",
     "lint": "eslint src",
     "postinstall": "npm run create-project-symlink",
