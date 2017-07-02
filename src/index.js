@@ -42,10 +42,4 @@ const additionalInfo = {
   secondSource,
   updated: new Date().toISOString(),
 };
-const createDatabaseKey = (mainKey, objectKey) => JSON.stringify({
-  firstSource,
-  mainKey,
-  objectKey,
-  secondSource,
-});
-saveInLevelDB(`${__dirname}/../leveldb`)(mutatedSequences, additionalInfo, createDatabaseKey);
+saveInLevelDB(`${__dirname}/../leveldb`)(additionalInfo.updated, { additionalInfo, mutatedSequences });
