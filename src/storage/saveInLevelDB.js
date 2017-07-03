@@ -57,8 +57,19 @@ const saveAny = (db, key, value) => {
 
 const saveInLevelDB = databaseDirectory => (key, value) => {
   const db = LevelPromise(levelup(databaseDirectory));
+  const rootKey = 'root';
 
-  return saveAny(db, key, value)
+  return db.get(rootKey)
+    .catch((error) => {
+      if (error instanceof levelup.errors.NotFoundError) {
+        return 'array:[]';
+      }
+
+      throw error;
+    })
+    .then(root => JSON.parse(root.replace(/^array:/, '')))
+    .then(root => saveSimpleValue(db, rootKey, [...root, key]))
+    .then(() => saveAny(db, key, value))
     .then(() => db.close())
     .catch(error => logger.error(error));
 };
