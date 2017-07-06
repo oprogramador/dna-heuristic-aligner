@@ -101,6 +101,70 @@ describe('saveInLevelDB', () => {
       ]));
   });
 
+  it('saves an array with multiple references to the same value', () => {
+    const key = 'foo-key';
+    const referenced = { foo: 'bar' };
+    const object = [
+      referenced,
+      referenced,
+    ];
+
+    return saveInLevelDB(testDbDirectory)(key, object)
+      .then(() => {
+        db = LevelPromise(levelup(testDbDirectory));
+
+        return db.get(key);
+      })
+      .then((value) => {
+        expect(value).to.startWith('array:');
+
+        return JSON.parse(value.replace(/array:/, ''));
+      })
+      .then(([foo1, foo2]) => {
+        expect(foo1).to.equal(foo2);
+
+        return db.get(foo1);
+      })
+      .then((value) => {
+        expect(value).to.startWith('object:');
+
+        return JSON.parse(value.replace(/object:/, ''));
+      })
+      .then(({ foo }) => expect(db.get(foo)).to.eventually.equal('string:bar'));
+  });
+
+  it('saves an object with multiple references to the same value', () => {
+    const key = 'foo-key';
+    const referenced = { foo: 'bar' };
+    const object = {
+      foo1: referenced,
+      foo2: referenced,
+    };
+
+    return saveInLevelDB(testDbDirectory)(key, object)
+      .then(() => {
+        db = LevelPromise(levelup(testDbDirectory));
+
+        return db.get(key);
+      })
+      .then((value) => {
+        expect(value).to.startWith('object:');
+
+        return JSON.parse(value.replace(/object:/, ''));
+      })
+      .then(({ foo1, foo2 }) => {
+        expect(foo1).to.equal(foo2);
+
+        return db.get(foo1);
+      })
+      .then((value) => {
+        expect(value).to.startWith('object:');
+
+        return JSON.parse(value.replace(/object:/, ''));
+      })
+      .then(({ foo }) => expect(db.get(foo)).to.eventually.equal('string:bar'));
+  });
+
   it('saves nested objects', () => {
     const objects = {
       foo1: {

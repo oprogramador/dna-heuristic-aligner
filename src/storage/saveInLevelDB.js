@@ -25,31 +25,42 @@ const saveSimpleValue = (db, key, value) => {
     .then(() => logger.info(`saved ${key}`));
 };
 
-const saveArray = (db, key, value) => {
-  const ids = value.map(() => uuid.v4());
+const createId = (context, element) => {
+  const savedKey = context.map.get(element);
+  if (savedKey) {
+    return savedKey;
+  }
+  const newKey = uuid.v4();
+  context.map.set(element, newKey);
+
+  return newKey;
+};
+
+const saveArray = (context, db, key, value) => {
+  const ids = value.map(element => createId(context, element));
 
   return Promise.all([
     saveSimpleValue(db, key, ids),
-    ...ids.map((id, i) => saveAny(db, id, value[i])),
+    ...ids.map((id, i) => saveAny(context, db, id, value[i])),
   ]);
 };
 
-const saveObject = (db, key, value) => {
-  const ids = _.mapValues(value, () => uuid.v4());
+const saveObject = (context, db, key, value) => {
+  const ids = _.mapValues(value, element => createId(context, element));
 
   return Promise.all([
     saveSimpleValue(db, key, ids),
-    ..._.map(ids, (id, innerKey) => saveAny(db, id, value[innerKey])),
+    ..._.map(ids, (id, innerKey) => saveAny(context, db, id, value[innerKey])),
   ]);
 };
 
-const saveAny = (db, key, value) => {
+const saveAny = (context, db, key, value) => {
   const type = getType(value);
   if (type === 'array') {
-    return saveArray(db, key, value);
+    return saveArray(context, db, key, value);
   }
   if (type === 'object') {
-    return saveObject(db, key, value);
+    return saveObject(context, db, key, value);
   }
 
   return saveSimpleValue(db, key, value);
@@ -58,6 +69,9 @@ const saveAny = (db, key, value) => {
 const saveInLevelDB = databaseDirectory => (key, value) => {
   const db = LevelPromise(levelup(databaseDirectory));
   const rootKey = 'root';
+  const context = {
+    map: new Map(),
+  };
 
   return db.get(rootKey)
     .catch((error) => {
@@ -69,7 +83,7 @@ const saveInLevelDB = databaseDirectory => (key, value) => {
     })
     .then(root => JSON.parse(root.replace(/^array:/, '')))
     .then(root => saveSimpleValue(db, rootKey, [...root, key]))
-    .then(() => saveAny(db, key, value))
+    .then(() => saveAny(context, db, key, value))
     .then(() => db.close())
     .catch(error => logger.error(error));
 };
