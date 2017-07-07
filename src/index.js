@@ -38,6 +38,7 @@ const mutatedSequences = strategy(
 _.map(mutatedSequences, (sequence) => {
   sequence.exactMutations = findMutationsInsideAlignment(sequence);
 });
+const allExactMutations = _.flatten(_.values(mutatedSequences).map(sequence => sequence.exactMutations));
 
 const similarity = sumSimilarity(mutatedSequences, stringSimilarity.compareTwoStrings);
 logger.info({ similarity });
@@ -47,4 +48,6 @@ const additionalInfo = {
   secondSource,
   updated: new Date().toISOString(),
 };
-saveInLevelDB(`${__dirname}/../leveldb`)(additionalInfo.updated, { additionalInfo, mutatedSequences });
+const toSave = { additionalInfo, allExactMutations, mutatedSequences };
+saveInLevelDB(`${__dirname}/../leveldb`)(additionalInfo.updated, toSave)
+  .then(() => logger.info(`Found ${allExactMutations.length} mutations in ${_.size(mutatedSequences)} sequences.`));
