@@ -6,7 +6,9 @@ function findMutationsWithOnlyExtending(first, second, { generateRandomInteger, 
   const sequences = {};
 
   _.times(maxTimes, (i) => {
-    logger.info({ i });
+    if (i % 100 === 0) {
+      logger.info({ i });
+    }
     const initialLength = 10;
     const start = generateRandomInteger() % first.length;
     const sequenceToSearch = first.substr(start, initialLength);
@@ -47,7 +49,6 @@ function findMutationsWithOnlyExtending(first, second, { generateRandomInteger, 
         foundSequence.sequenceAtFirst.length >= initialLength &&
         foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
       ) {
-        logger.info(foundSequence);
         sequences[foundStart.positionAtFirst] = foundSequence;
       }
     }
