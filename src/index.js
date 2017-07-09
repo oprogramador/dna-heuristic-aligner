@@ -53,4 +53,6 @@ const additionalInfo = {
 };
 const toSave = { additionalInfo, allExactMutations, mutatedSequences };
 saveInLevelDB(`${__dirname}/../leveldb`)(additionalInfo.updated, toSave)
-  .then(() => logger.info(`Found ${allExactMutations.length} mutations in ${_.size(mutatedSequences)} sequences.`));
+  .then(() => logger.info(
+    `Found ${Object.keys(allExactMutations).length} mutations in ${_.size(mutatedSequences)} sequences.`
+  ));
