@@ -32,13 +32,16 @@ const mutatedSequences = strategy(
   second.sequence,
   {
     generateRandomInteger: () => _.random(Number.MAX_SAFE_INTEGER),
-    maxTimes: 1000,
+    maxTimes: 10000,
   }
 );
 _.map(mutatedSequences, (sequence) => {
   sequence.exactMutations = findMutationsInsideAlignment(sequence);
 });
-const allExactMutations = _.flatten(_.values(mutatedSequences).map(sequence => sequence.exactMutations));
+const allExactMutations = Object.assign(
+  {},
+  ..._.map(mutatedSequences, sequence => sequence.exactMutations)
+);
 
 const similarity = sumSimilarity(mutatedSequences, stringSimilarity.compareTwoStrings);
 logger.info({ similarity });

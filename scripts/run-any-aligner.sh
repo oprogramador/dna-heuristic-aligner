@@ -4,7 +4,7 @@ set -e
 cd `dirname $(which $0)`
 cd ..
 
-dataDir=data
+dataDir=$DNA_DATA_DIR
 
 first=$1
 second=$2
