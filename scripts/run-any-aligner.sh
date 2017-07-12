@@ -16,7 +16,7 @@ then
 elif [ "$aligner" == 'blat' ]
 then
   blat $dataDir/$second $dataDir/$first $dataDir/output.psl
-elif [ "$aligner" == 'hr' ]
+elif [ "$aligner" == 'heal' ]
 then
   npm start -- $first $second $first $second findMutationsWithOnlyExtending
 fi
