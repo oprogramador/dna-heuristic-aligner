@@ -43,8 +43,6 @@ const allExactMutations = Object.assign(
   ..._.map(mutatedSequences, sequence => sequence.exactMutations)
 );
 
-const similarity = sumSimilarity(mutatedSequences, stringSimilarity.compareTwoStrings);
-logger.info({ similarity });
 
 const additionalInfo = {
   firstSource,
@@ -53,6 +51,8 @@ const additionalInfo = {
 };
 const toSave = { additionalInfo, allExactMutations, mutatedSequences };
 saveInLevelDB(`${__dirname}/../leveldb`)(additionalInfo.updated, toSave)
-  .then(() => logger.info(
-    `Found ${Object.keys(allExactMutations).length} mutations in ${_.size(mutatedSequences)} sequences.`
-  ));
+  .then(() => {
+    const similarity = sumSimilarity(mutatedSequences, stringSimilarity.compareTwoStrings);
+    logger.info({ similarity });
+    logger.info(`Found ${Object.keys(allExactMutations).length} mutations in ${_.size(mutatedSequences)} sequences.`);
+  });
