@@ -2,14 +2,27 @@ import { findEnd, findStart } from 'dna-heuristic-aligner/extending';
 import _ from 'lodash';
 import logger from 'dna-heuristic-aligner/services/logger';
 
-function findMutationsWithOnlyExtending(first, second, { generateRandomInteger, maxTimes = 600 } = {}) {
+const initialLength = 10;
+
+const generateRandomInteger = (() => {
+  let i = 0;
+
+  const generate = () => {
+    i += initialLength;
+
+    return i;
+  };
+
+  return generate;
+})();
+
+function findMutationsWithOnlyExtending(first, second, { maxTimes = 600 } = {}) {
   const sequences = {};
 
   _.times(maxTimes, (i) => {
     if (i % 100 === 0) {
       logger.info({ i });
     }
-    const initialLength = 10;
     const start = generateRandomInteger() % first.length;
     const sequenceToSearch = first.substr(start, initialLength);
     if (sequenceToSearch.includes('N')) {
