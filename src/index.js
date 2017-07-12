@@ -7,7 +7,7 @@ import fs from 'fs';
 import logger from 'dna-heuristic-aligner/services/logger';
 import parseFASTA from 'fasta-to-object-parser';
 import process from 'process';
-import saveInLevelDB from 'dna-heuristic-aligner/storage/saveInLevelDB';
+import { saveInLevelDB } from 'grapedb';
 import stringSimilarity from 'string-similarity';
 import sumSimilarity from 'dna-heuristic-aligner/measurers/sumSimilarity';
 
@@ -50,7 +50,7 @@ const additionalInfo = {
   updated: new Date().toISOString(),
 };
 const toSave = { additionalInfo, allExactMutations, mutatedSequences };
-saveInLevelDB(`${__dirname}/../leveldb`)(additionalInfo.updated, toSave)
+saveInLevelDB(`${__dirname}/../leveldb`, logger)(additionalInfo.updated, toSave)
   .then(() => {
     const similarity = sumSimilarity(mutatedSequences, stringSimilarity.compareTwoStrings);
     logger.info({ similarity });
