@@ -16,12 +16,21 @@ const generateRandomInteger = (() => {
   return generate;
 })();
 
-function findMutationsWithOnlyExtending(first, second, { maxTimes = 600 } = {}) {
-  const sequences = {};
+function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootKey }) {
+  const maxTimes = first.length / initialLength;
+  const savedKeys = new Set();
+  const promises = [
+    manager.get(rootKey)
+      .then(root => manager.set(rootKey, [...(root || []), mainKey]))
+      .catch((error) => {
+        logger.eror(error);
+        process.exit(1);
+      }),
+  ];
 
   _.times(maxTimes, (i) => {
     if (i % 100 === 0) {
-      logger.info({ i });
+      logger.info({ i, maxTimes });
     }
     const start = generateRandomInteger() % first.length;
     const sequenceToSearch = first.substr(start, initialLength);
@@ -62,12 +71,15 @@ function findMutationsWithOnlyExtending(first, second, { maxTimes = 600 } = {}) 
         foundSequence.sequenceAtFirst.length >= initialLength &&
         foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
       ) {
-        sequences[foundStart.positionAtFirst] = foundSequence;
+        const key = foundStart.positionAtFirst;
+        savedKeys.add(key);
+        promises.push(manager.set(key, foundSequence));
       }
     }
   });
+  promises.push(manager.set(mainKey, _.sortBy(Array.from(savedKeys)).map(number => String(number))));
 
-  return sequences;
+  return Promise.all(promises);
 }
 
 export default findMutationsWithOnlyExtending;

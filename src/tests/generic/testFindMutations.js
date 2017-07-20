@@ -12,6 +12,30 @@ const generateFakeIntegerFunction = () => {
   return generate;
 };
 
+
+const rootKey = 'foo-root';
+const initialRootValue = ['foo-1', 'foo-2'];
+
+class Manager {
+  constructor() {
+    this.savedObjects = {};
+  }
+
+  set(key, value) {
+    this.savedObjects[key] = value;
+
+    return Promise.resolve();
+  }
+
+  get(key) {
+    if (key === rootKey) {
+      return Promise.resolve(initialRootValue);
+    }
+
+    return Promise.resolve(null);
+  }
+}
+
 function testFindMutations(findMutations) {
   describe('findMutations', () => {
     it('finds all short mutations - simple', () => {
@@ -51,16 +75,26 @@ function testFindMutations(findMutations) {
           sequenceAtSecond: geneC2,
         },
       };
+      const mainKey = 'foo-main';
+      const manager = new Manager();
 
-      const foundMutations = findMutations(
+      return findMutations(
         first,
         second,
         {
           generateRandomInteger: generateFakeIntegerFunction(),
+          mainKey,
+          manager,
           maxTimes: 1000,
-        }
-      );
-      expect(foundMutations).to.deep.equal(expectedMutations);
+          rootKey,
+        },
+      )
+        .then(() => {
+          expect(manager.savedObjects).to.deep.equal(Object.assign({}, expectedMutations, {
+            [mainKey]: Object.keys(expectedMutations),
+            [rootKey]: [...initialRootValue, mainKey],
+          }));
+        });
     });
 
     it('finds all short mutations - complex', () => {
@@ -166,16 +200,26 @@ function testFindMutations(findMutations) {
           sequenceAtSecond: geneJ2,
         },
       };
+      const mainKey = 'foo-main';
+      const manager = new Manager();
 
-      const foundMutations = findMutations(
+      return findMutations(
         first,
         second,
         {
           generateRandomInteger: generateFakeIntegerFunction(),
-          maxTimes: 5000,
-        }
-      );
-      expect(foundMutations).to.deep.equal(expectedMutations);
+          mainKey,
+          manager,
+          maxTimes: 1000,
+          rootKey,
+        },
+      )
+        .then(() => {
+          expect(manager.savedObjects).to.deep.equal(Object.assign({}, expectedMutations, {
+            [mainKey]: Object.keys(expectedMutations),
+            [rootKey]: [...initialRootValue, mainKey],
+          }));
+        });
     });
   });
 }
