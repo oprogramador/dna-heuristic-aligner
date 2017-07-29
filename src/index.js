@@ -35,4 +35,5 @@ strategy(
     maxTimes: 20000,
     rootKey,
   }
-);
+)
+  .then(() => logger.info({ mainKey }));
