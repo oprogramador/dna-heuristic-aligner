@@ -1,4 +1,6 @@
+import { AdvancedManager, InMemorySimpleManager } from 'grapedb';
 import expect from 'dna-heuristic-aligner/tests/expect';
+import realLogger from 'dna-heuristic-aligner/services/logger';
 
 const generateFakeIntegerFunction = () => {
   let i = 0;
@@ -14,27 +16,11 @@ const generateFakeIntegerFunction = () => {
 
 
 const rootKey = 'foo-root';
-const initialRootValue = ['foo-1', 'foo-2'];
 
-class Manager {
-  constructor() {
-    this.savedObjects = {};
-  }
-
-  set(key, value) {
-    this.savedObjects[key] = value;
-
-    return Promise.resolve();
-  }
-
-  get(key) {
-    if (key === rootKey) {
-      return Promise.resolve(initialRootValue);
-    }
-
-    return Promise.resolve(null);
-  }
-}
+const logger = {
+  error: realLogger.error,
+  info: () => {},
+};
 
 function testFindMutations(findMutations) {
   describe('findMutations', () => {
@@ -76,7 +62,7 @@ function testFindMutations(findMutations) {
         },
       };
       const mainKey = 'foo-main';
-      const manager = new Manager();
+      const manager = new AdvancedManager(new InMemorySimpleManager(), logger);
 
       return findMutations(
         first,
@@ -89,12 +75,7 @@ function testFindMutations(findMutations) {
           rootKey,
         },
       )
-        .then(() => {
-          expect(manager.savedObjects).to.deep.equal(Object.assign({}, expectedMutations, {
-            [mainKey]: Object.keys(expectedMutations),
-            [rootKey]: [...initialRootValue, mainKey],
-          }));
-        });
+        .then(() => expect(manager.get(mainKey)).to.eventually.deep.equal(expectedMutations));
     });
 
     it('finds all short mutations - complex', () => {
@@ -201,7 +182,7 @@ function testFindMutations(findMutations) {
         },
       };
       const mainKey = 'foo-main';
-      const manager = new Manager();
+      const manager = new AdvancedManager(new InMemorySimpleManager(), logger);
 
       return findMutations(
         first,
@@ -214,12 +195,7 @@ function testFindMutations(findMutations) {
           rootKey,
         },
       )
-        .then(() => {
-          expect(manager.savedObjects).to.deep.equal(Object.assign({}, expectedMutations, {
-            [mainKey]: Object.keys(expectedMutations),
-            [rootKey]: [...initialRootValue, mainKey],
-          }));
-        });
+        .then(() => expect(manager.get(mainKey)).to.eventually.deep.equal(expectedMutations));
     });
   });
 }

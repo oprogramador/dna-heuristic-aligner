@@ -16,17 +16,11 @@ const generateRandomInteger = (() => {
   return generate;
 })();
 
-function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootKey }) {
+function findMutationsWithOnlyExtending(first, second, { manager, mainKey }) {
   const maxTimes = first.length / initialLength;
   const savedKeys = new Set();
-  const promises = [
-    manager.get(rootKey)
-      .then(root => manager.set(rootKey, [...(root || []), mainKey]))
-      .catch((error) => {
-        logger.eror(error);
-        process.exit(1);
-      }),
-  ];
+  const promises = [];
+  const toSave = {};
 
   _.times(maxTimes, (i) => {
     if (i % 100 === 0) {
@@ -72,12 +66,13 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootK
         foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
       ) {
         const key = foundStart.positionAtFirst;
+        toSave[key] = foundSequence;
         savedKeys.add(key);
         promises.push(manager.set(key, foundSequence));
       }
     }
   });
-  promises.push(manager.set(mainKey, _.sortBy(Array.from(savedKeys)).map(number => String(number))));
+  promises.push(manager.set(mainKey, toSave));
 
   return Promise.all(promises);
 }
