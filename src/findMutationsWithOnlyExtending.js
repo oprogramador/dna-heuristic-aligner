@@ -20,8 +20,8 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootK
   const maxTimes = first.length / initialLength;
   const savedKeys = new Set();
   const promises = [
-    manager.get(rootKey)
-      .then(root => manager.set(rootKey, [...(root || []), mainKey])),
+    manager.getComplex(rootKey, 2)
+      .then(root => manager.setComplex(rootKey, [...(root || []), mainKey])),
   ];
   const toSave = {};
 

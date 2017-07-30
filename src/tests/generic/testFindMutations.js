@@ -30,7 +30,7 @@ function testFindMutations(findMutations) {
       const mainKey = 'foo-main';
       const manager = new AdvancedManager(new InMemorySimpleManager(), logger);
 
-      return manager.set(rootKey, ['a', 'b'])
+      return manager.setComplex(rootKey, ['a', 'b'])
         .then(() => findMutations(
           first,
           second,
@@ -42,7 +42,7 @@ function testFindMutations(findMutations) {
             rootKey,
           },
         ))
-        .then(() => expect(manager.get(rootKey)).to.eventually.deep.equal(['a', 'b', mainKey]));
+        .then(() => expect(manager.getComplex(rootKey)).to.eventually.deep.equal(['a', 'b', mainKey]));
     });
 
     it('creates root when previously non-existent', () => {
@@ -62,7 +62,7 @@ function testFindMutations(findMutations) {
           rootKey,
         },
       )
-        .then(() => expect(manager.get(rootKey)).to.eventually.deep.equal([mainKey]));
+        .then(() => expect(manager.getComplex(rootKey)).to.eventually.deep.equal([mainKey]));
     });
 
     it('finds all short mutations - simple', () => {
