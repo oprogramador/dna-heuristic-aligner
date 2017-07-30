@@ -24,6 +24,47 @@ const logger = {
 
 function testFindMutations(findMutations) {
   describe('findMutations', () => {
+    it('appends result to root', () => {
+      const first = 'TTGAAGAGTTGTCCAGAGGGCCCT';
+      const second = 'TTGAAGAGTTGTCCAGACGGCCCT';
+      const mainKey = 'foo-main';
+      const manager = new AdvancedManager(new InMemorySimpleManager(), logger);
+
+      return manager.set(rootKey, ['a', 'b'])
+        .then(() => findMutations(
+          first,
+          second,
+          {
+            generateRandomInteger: generateFakeIntegerFunction(),
+            mainKey,
+            manager,
+            maxTimes: 1000,
+            rootKey,
+          },
+        ))
+        .then(() => expect(manager.get(rootKey)).to.eventually.deep.equal(['a', 'b', mainKey]));
+    });
+
+    it('creates root when previously non-existent', () => {
+      const first = 'TTGAAGAGTTGTCCAGAGGGCCCT';
+      const second = 'TTGAAGAGTTGTCCAGACGGCCCT';
+      const mainKey = 'foo-main';
+      const manager = new AdvancedManager(new InMemorySimpleManager(), logger);
+
+      return findMutations(
+        first,
+        second,
+        {
+          generateRandomInteger: generateFakeIntegerFunction(),
+          mainKey,
+          manager,
+          maxTimes: 1000,
+          rootKey,
+        },
+      )
+        .then(() => expect(manager.get(rootKey)).to.eventually.deep.equal([mainKey]));
+    });
+
     it('finds all short mutations - simple', () => {
       const geneA1 = 'GAAGATACCAGGAACAAGCCACCGCTCACCACCTTGGATGAACGTGTAGTAGCGGACTCG';
       const geneA2 = 'GAAGATACCAGGAACAAGCCACCGCTCACCACCTTGGATGCACGTGTAGTAGCGGACTCG';
@@ -75,7 +116,7 @@ function testFindMutations(findMutations) {
           rootKey,
         },
       )
-        .then(() => expect(manager.get(mainKey)).to.eventually.deep.equal(expectedMutations));
+        .then(() => expect(manager.getComplex(mainKey)).to.eventually.deep.equal(expectedMutations));
     });
 
     it('finds all short mutations - complex', () => {
@@ -195,7 +236,7 @@ function testFindMutations(findMutations) {
           rootKey,
         },
       )
-        .then(() => expect(manager.get(mainKey)).to.eventually.deep.equal(expectedMutations));
+        .then(() => expect(manager.getComplex(mainKey)).to.eventually.deep.equal(expectedMutations));
     });
   });
 }
