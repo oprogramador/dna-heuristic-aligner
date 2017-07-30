@@ -84,18 +84,52 @@ function testFindMutations(findMutations) {
 
       const expectedMutations = {
         [first.indexOf(geneA1)]: {
+          mutations: {
+            40: {
+              positionAtFirst: 40,
+              positionAtSecond: 40,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'C',
+              type: 'insertion',
+            },
+            41: {
+              positionAtFirst: 41,
+              positionAtSecond: 42,
+              sequenceAtFirst: 'A',
+              sequenceAtSecond: '',
+              type: 'deletion',
+            },
+          },
           positionAtFirst: first.indexOf(geneA1),
           positionAtSecond: second.indexOf(geneA2),
           sequenceAtFirst: geneA1,
           sequenceAtSecond: geneA2,
         },
         [first.indexOf(geneB1)]: {
+          mutations: {
+            112: {
+              positionAtFirst: 112,
+              positionAtSecond: 151,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'A',
+              type: 'insertion',
+            },
+          },
           positionAtFirst: first.indexOf(geneB1),
           positionAtSecond: second.indexOf(geneB2),
           sequenceAtFirst: geneB1,
           sequenceAtSecond: geneB2,
         },
         [first.indexOf(geneC1)]: {
+          mutations: {
+            256: {
+              positionAtFirst: 256,
+              positionAtSecond: 281,
+              sequenceAtFirst: 'C',
+              sequenceAtSecond: 'A',
+              type: 'replacement',
+            },
+          },
           positionAtFirst: first.indexOf(geneC1),
           positionAtSecond: second.indexOf(geneC2),
           sequenceAtFirst: geneC1,
@@ -162,60 +196,178 @@ function testFindMutations(findMutations) {
 
       const expectedMutations = {
         [first.indexOf(geneA1)]: {
+          mutations: {
+            48: {
+              positionAtFirst: 48,
+              positionAtSecond: 48,
+              sequenceAtFirst: 'A',
+              sequenceAtSecond: '',
+              type: 'deletion',
+            },
+          },
           positionAtFirst: first.indexOf(geneA1),
           positionAtSecond: second.indexOf(geneA2),
           sequenceAtFirst: geneA1,
           sequenceAtSecond: geneA2,
         },
         [first.indexOf(geneB1)]: {
+          mutations: {
+            176: {
+              positionAtFirst: 176,
+              positionAtSecond: 178,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'C',
+              type: 'insertion',
+            },
+          },
           positionAtFirst: first.indexOf(geneB1),
           positionAtSecond: second.indexOf(geneB2),
           sequenceAtFirst: geneB1,
           sequenceAtSecond: geneB2,
         },
         [first.indexOf(geneC1)]: {
+          mutations: {
+            330: {
+              positionAtFirst: 330,
+              positionAtSecond: 348,
+              sequenceAtFirst: 'G',
+              sequenceAtSecond: 'C',
+              type: 'replacement',
+            },
+          },
           positionAtFirst: first.indexOf(geneC1),
           positionAtSecond: second.indexOf(geneC2),
           sequenceAtFirst: geneC1,
           sequenceAtSecond: geneC2,
         },
         [first.indexOf(geneD1)]: {
+          mutations: {
+            466: {
+              positionAtFirst: 466,
+              positionAtSecond: 481,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'T',
+              type: 'insertion',
+            },
+            467: {
+              positionAtFirst: 467,
+              positionAtSecond: 483,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'G',
+              type: 'insertion',
+            },
+            469: {
+              positionAtFirst: 469,
+              positionAtSecond: 486,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'A',
+              type: 'insertion',
+            },
+          },
           positionAtFirst: first.indexOf(geneD1),
           positionAtSecond: second.indexOf(geneD2),
           sequenceAtFirst: geneD1,
           sequenceAtSecond: geneD2,
         },
         [first.indexOf(geneE1)]: {
+          mutations: {
+            641: {
+              positionAtFirst: 641,
+              positionAtSecond: 644,
+              sequenceAtFirst: 'T',
+              sequenceAtSecond: '',
+              type: 'deletion',
+            },
+          },
           positionAtFirst: first.indexOf(geneE1),
           positionAtSecond: second.indexOf(geneE2),
           sequenceAtFirst: geneE1,
           sequenceAtSecond: geneE2,
         },
         [first.indexOf(geneF1)]: {
+          mutations: {
+            782: {
+              positionAtFirst: 782,
+              positionAtSecond: 787,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'C',
+              type: 'insertion',
+            },
+          },
           positionAtFirst: first.indexOf(geneF1),
           positionAtSecond: second.indexOf(geneF2),
           sequenceAtFirst: geneF1,
           sequenceAtSecond: geneF2,
         },
         [first.indexOf(geneG1)]: {
+          mutations: {
+            943: {
+              positionAtFirst: 943,
+              positionAtSecond: 964,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'C',
+              type: 'insertion',
+            },
+            944: {
+              positionAtFirst: 944,
+              positionAtSecond: 966,
+              sequenceAtFirst: 'G',
+              sequenceAtSecond: '',
+              type: 'deletion',
+            },
+          },
           positionAtFirst: first.indexOf(geneG1),
           positionAtSecond: second.indexOf(geneG2),
           sequenceAtFirst: geneG1,
           sequenceAtSecond: geneG2,
         },
         [first.indexOf(geneH1)]: {
+          mutations: {
+            1085: {
+              positionAtFirst: 1085,
+              positionAtSecond: 1103,
+              sequenceAtFirst: 'G',
+              sequenceAtSecond: '',
+              type: 'deletion',
+            },
+          },
           positionAtFirst: first.indexOf(geneH1),
           positionAtSecond: second.indexOf(geneH2),
           sequenceAtFirst: geneH1,
           sequenceAtSecond: geneH2,
         },
         [first.indexOf(geneI1)]: {
+          mutations: {
+            1239: {
+              positionAtFirst: 1239,
+              positionAtSecond: 1241,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'C',
+              type: 'insertion',
+            },
+          },
           positionAtFirst: first.indexOf(geneI1),
           positionAtSecond: second.indexOf(geneI2),
           sequenceAtFirst: geneI1,
           sequenceAtSecond: geneI2,
         },
         [first.indexOf(geneJ1)]: {
+          mutations: {
+            1394: {
+              positionAtFirst: 1394,
+              positionAtSecond: 1400,
+              sequenceAtFirst: '',
+              sequenceAtSecond: 'A',
+              type: 'insertion',
+            },
+            1395: {
+              positionAtFirst: 1395,
+              positionAtSecond: 1402,
+              sequenceAtFirst: 'T',
+              sequenceAtSecond: '',
+              type: 'deletion',
+            },
+          },
           positionAtFirst: first.indexOf(geneJ1),
           positionAtSecond: second.indexOf(geneJ2),
           sequenceAtFirst: geneJ1,

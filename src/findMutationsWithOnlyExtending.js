@@ -1,5 +1,6 @@
 import { findEnd, findStart } from 'dna-heuristic-aligner/extending';
 import _ from 'lodash';
+import findMutationsInsideAlignment from 'dna-heuristic-aligner/findMutationsInsideAlignment';
 import logger from 'dna-heuristic-aligner/services/logger';
 
 const initialLength = 10;
@@ -68,6 +69,8 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootK
         foundSequence.sequenceAtFirst.length >= initialLength &&
         foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
       ) {
+        const mutations = findMutationsInsideAlignment(foundSequence);
+        foundSequence.mutations = mutations;
         const key = foundStart.positionAtFirst;
         toSave[key] = foundSequence;
         savedKeys.add(key);
