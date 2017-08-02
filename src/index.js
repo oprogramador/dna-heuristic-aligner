@@ -22,7 +22,7 @@ const strategy = availableStrategies[strategyName];
 
 const db = LevelPromise(levelup(`${__dirname}/../leveldb`));
 const simpleManager = new LevelSimpleManager(db);
-const manager = new AdvancedManager(simpleManager, logger);
+const manager = new AdvancedManager(simpleManager, { error: logger.error, info: () => {} });
 const mainKey = new Date().toISOString();
 const rootKey = 'root';
 strategy(
