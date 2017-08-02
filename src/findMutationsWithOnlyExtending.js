@@ -19,7 +19,6 @@ const generateRandomInteger = (() => {
 
 function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootKey }) {
   const maxTimes = Math.ceil(first.length / initialLength);
-  const toSave = {};
 
   return manager.getComplex(rootKey, 2)
     .then(root => manager.setComplex(rootKey, [...(root || []), mainKey]))
@@ -69,17 +68,16 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootK
           const mutations = findMutationsInsideAlignment(foundSequence);
           foundSequence.mutations = mutations;
           const key = foundStart.positionAtFirst;
-          toSave[key] = foundSequence;
 
-          return manager.setComplex(key, foundSequence);
+          return manager.getComplex(mainKey, 2)
+            .then(result => manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence })));
         }
 
         return Promise.resolve();
       }
 
       return Promise.resolve();
-    }))
-    .then(() => manager.setComplex(mainKey, toSave));
+    }));
 }
 
 export default findMutationsWithOnlyExtending;
