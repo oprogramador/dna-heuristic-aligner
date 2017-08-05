@@ -69,7 +69,7 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootK
           foundSequence.mutations = mutations;
           const key = foundStart.positionAtFirst;
 
-          return manager.getComplex(mainKey, 2)
+          return manager.getComplex(mainKey, 1)
             .then(result => manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence })));
         }
 
