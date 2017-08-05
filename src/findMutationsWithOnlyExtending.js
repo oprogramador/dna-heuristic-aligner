@@ -5,28 +5,32 @@ import logger from 'dna-heuristic-aligner/services/logger';
 
 const initialLength = 10;
 
-const generateRandomInteger = (() => {
-  let i = 0;
+const generateRandomInteger = i => i * initialLength;
 
-  const generate = () => {
-    i += initialLength;
+const currentProcessKey = 'current-process';
 
-    return i;
-  };
+const executeSequentially = (maxTimes, callback) =>
+  bluebird.reduce(new Array(maxTimes), (accumulator, nothing, i) => callback(i));
 
-  return generate;
-})();
-
-function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootKey }) {
+function findMutationsWithOnlyExtending(first, second, { manager, mainKey: defaultMainKey, rootKey }) {
   const maxTimes = Math.ceil(first.length / initialLength);
 
-  return manager.getComplex(rootKey, 2)
-    .then(root => manager.setComplex(rootKey, [...(root || []), mainKey]))
-    .then(() => bluebird.reduce(new Array(maxTimes), (accumulator, nothing, i) => {
-      if (i % 100 === 0) {
-        logger.info({ i, maxTimes });
+  return Promise.all([
+    manager.getComplex(rootKey, 2),
+    manager.getComplex(currentProcessKey),
+  ])
+    .then(([root, currentProcess]) => {
+      const { iterationNr, mainKey } = currentProcess || { iterationNr: 0, mainKey: defaultMainKey };
+
+      return manager.setComplex(rootKey, [...(root || []), mainKey])
+        .then(() => ({ iterationNr, mainKey }));
+    })
+    .then(({ iterationNr, mainKey }) => executeSequentially(maxTimes - iterationNr, (i) => {
+      const currentIteration = iterationNr + i;
+      if (currentIteration % 100 === 0) {
+        logger.info({ i: currentIteration, maxTimes });
       }
-      const start = generateRandomInteger() % first.length;
+      const start = generateRandomInteger(currentIteration) % first.length;
       const sequenceToSearch = first.substr(start, initialLength);
       if (sequenceToSearch.includes('N')) {
         return Promise.resolve();
@@ -70,7 +74,8 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey, rootK
           const key = foundStart.positionAtFirst;
 
           return manager.getComplex(mainKey, 1)
-            .then(result => manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence })));
+            .then(result => manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence })))
+            .then(() => manager.setComplex(currentProcessKey, { iterationNr: currentIteration, mainKey }));
         }
 
         return Promise.resolve();
