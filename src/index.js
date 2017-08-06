@@ -9,6 +9,7 @@ import parseFASTA from 'fasta-to-object-parser';
 import process from 'process';
 
 const dataDir = process.env.DNA_DATA_DIR;
+const leveldbDir = process.env.DNA_LEVELDB_DIR;
 const firstPath = process.argv[4];
 const secondPath = process.argv[5];
 const strategyName = process.argv[6];
@@ -20,7 +21,7 @@ const availableStrategies = {
 };
 const strategy = availableStrategies[strategyName];
 
-const db = LevelPromise(levelup(`${__dirname}/../leveldb`));
+const db = LevelPromise(levelup(leveldbDir));
 const simpleManager = new LevelSimpleManager(db);
 const manager = new AdvancedManager(simpleManager, { error: logger.error, info: () => {} });
 const mainKey = new Date().toISOString();
