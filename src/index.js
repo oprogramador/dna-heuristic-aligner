@@ -10,6 +10,8 @@ import process from 'process';
 
 const dataDir = process.env.DNA_DATA_DIR;
 const leveldbDir = process.env.DNA_LEVELDB_DIR;
+const firstSource = process.argv[2];
+const secondSource = process.argv[3];
 const firstPath = process.argv[4];
 const secondPath = process.argv[5];
 const strategyName = process.argv[6];
@@ -24,17 +26,24 @@ const strategy = availableStrategies[strategyName];
 const db = LevelPromise(levelup(leveldbDir));
 const simpleManager = new LevelSimpleManager(db);
 const manager = new AdvancedManager(simpleManager, { error: logger.error, info: () => {} });
-const mainKey = new Date().toISOString();
+const date = new Date().toISOString();
+const mainKey = date;
 const rootKey = 'root';
-strategy(
-  first.sequence,
-  second.sequence,
-  {
-    generateRandomInteger: () => _.random(Number.MAX_SAFE_INTEGER),
-    mainKey,
-    manager,
-    maxTimes: 20000,
-    rootKey,
-  }
-)
+const info = {
+  date,
+  firstSource,
+  secondSource,
+};
+manager.setComplex(mainKey, { info })
+  .then(() => strategy(
+    first.sequence,
+    second.sequence,
+    {
+      generateRandomInteger: () => _.random(Number.MAX_SAFE_INTEGER),
+      mainKey,
+      manager,
+      maxTimes: 20000,
+      rootKey,
+    }
+  ))
   .then(() => logger.info({ mainKey }));
