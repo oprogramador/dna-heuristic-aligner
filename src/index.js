@@ -39,11 +39,13 @@ manager.setComplex(mainKey, { info })
     first.sequence,
     second.sequence,
     {
+      firstSource,
       generateRandomInteger: () => _.random(Number.MAX_SAFE_INTEGER),
       mainKey,
       manager,
       maxTimes: 20000,
       rootKey,
+      secondSource,
     }
   ))
   .then(() => logger.info({ mainKey }));

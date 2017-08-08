@@ -7,13 +7,25 @@ const initialLength = 10;
 
 const generateRandomInteger = i => i * initialLength;
 
-const currentProcessKey = 'current-process';
+const createCurrentProcessKey = (firstSource, secondSource) =>
+  `current-process-${JSON.stringify({ firstSource, secondSource })}`;
 
 const executeSequentially = (maxTimes, callback) =>
   bluebird.reduce(new Array(maxTimes), (accumulator, nothing, i) => callback(i));
 
-function findMutationsWithOnlyExtending(first, second, { manager, mainKey: defaultMainKey, rootKey }) {
+function findMutationsWithOnlyExtending(
+  first,
+  second,
+  {
+    firstSource,
+    secondSource,
+    manager,
+    mainKey: defaultMainKey,
+    rootKey,
+  }
+) {
   const maxTimes = Math.ceil(first.length / initialLength);
+  const currentProcessKey = createCurrentProcessKey(firstSource, secondSource);
 
   return Promise.all([
     manager.getComplex(rootKey, 2),
@@ -28,7 +40,8 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey: defau
     .then(({ iterationNr, mainKey }) => executeSequentially(maxTimes - iterationNr, (i) => {
       const currentIteration = iterationNr + i;
       if (currentIteration % 100 === 0) {
-        logger.info({ i: currentIteration, maxTimes });
+        logger.info({ firstSource, i: currentIteration, maxTimes, secondSource });
+        manager.setComplex(currentProcessKey, { iterationNr: currentIteration, mainKey });
       }
       const start = generateRandomInteger(currentIteration) % first.length;
       const sequenceToSearch = first.substr(start, initialLength);
@@ -74,8 +87,7 @@ function findMutationsWithOnlyExtending(first, second, { manager, mainKey: defau
           const key = foundStart.positionAtFirst;
 
           return manager.getComplex(mainKey, 1)
-            .then(result => manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence })))
-            .then(() => manager.setComplex(currentProcessKey, { iterationNr: currentIteration, mainKey }));
+            .then(result => manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence })));
         }
 
         return Promise.resolve();
