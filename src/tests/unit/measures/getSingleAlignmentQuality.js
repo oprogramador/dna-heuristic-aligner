@@ -13,7 +13,7 @@ describe('getSingleAlignmentQuality', () => {
     expect(getSingleAlignmentQuality(geneA1, geneA2, getSimilarity)).to.be.closeTo(0.0048, 0.00001);
   });
 
-  it('returns product of the similarity power two and the minumum length for subsequences of different length', () => {
+  it('returns product of the similarity power four and the minumum length for subsequences of different length', () => {
     const geneA1 = 'CTAGGC';
     const geneA2 = 'CTGAG';
 
