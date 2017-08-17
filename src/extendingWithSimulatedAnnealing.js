@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import getAllStartingNeighbors from 'dna-heuristic-aligner/getAllStartingNeighbors';
+import getRandomItem from 'random-weighted-item';
 import getSingleAlignmentQuality from 'dna-heuristic-aligner/measurers/getSingleAlignmentQuality';
 import stringSimilarity from 'string-similarity';
 
@@ -26,7 +26,7 @@ const findStart = (first, second, { beginAtFirst, beginAtSecond, endAtFirst, end
     if (!neighbors.length) {
       break;
     }
-    const bestNeighbor = _.maxBy(neighbors, getQuality);
+    const bestNeighbor = getRandomItem(neighbors, getQuality);
     const bestNeighborQuality = getQuality(bestNeighbor);
     if (bestNeighborQuality > bestQuality) {
       bestQuality = bestNeighborQuality;

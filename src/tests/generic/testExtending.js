@@ -217,8 +217,8 @@ function testExtending({ findEnd, findStart }) {
       });
 
       it('finds start for replacement', () => {
-        const geneA1 = 'CGTAGATGTGGAGTCCCCGCGTTAACCCTGCCCAATGTCTTAACAGGG';
-        const geneA2 = 'CGTAGATGTGGAGTCCGCGCGTTAACCCTGCCCAATGTCTTAACAGGG';
+        const geneA1 = 'AAAGTCCGACAGAGTTTTATGAATGATTCCCAAATTCAAAAC';
+        const geneA2 = 'AAAGTCCGACAGAGTTTTACGAATGATTCCCAAATTCAAAAC';
 
         const geneK = 'ACATCCATTTGCATAAAA';
         const geneL = 'GGCATAGAGGTGCGGAGCGCGGAT';
