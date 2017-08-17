@@ -3,14 +3,14 @@ import getSingleAlignmentQuality from 'dna-heuristic-aligner/measurers/getSingle
 import sinon from 'sinon';
 
 describe('getSingleAlignmentQuality', () => {
-  it('returns product of the similarity power two and the length for subsequences of the same length', () => {
+  it('returns product of the similarity power four and the length for subsequences of the same length', () => {
     const geneA1 = 'CTA';
     const geneA2 = 'CTG';
 
     const getSimilarity = sinon.stub();
     getSimilarity.withArgs(geneA1, geneA2).returns(0.2);
 
-    expect(getSingleAlignmentQuality(geneA1, geneA2, getSimilarity)).to.be.closeTo(0.12, 0.00001);
+    expect(getSingleAlignmentQuality(geneA1, geneA2, getSimilarity)).to.be.closeTo(0.0048, 0.00001);
   });
 
   it('returns product of the similarity power two and the minumum length for subsequences of different length', () => {
@@ -20,6 +20,6 @@ describe('getSingleAlignmentQuality', () => {
     const getSimilarity = sinon.stub();
     getSimilarity.withArgs(geneA1, geneA2).returns(0.1);
 
-    expect(getSingleAlignmentQuality(geneA1, geneA2, getSimilarity)).to.be.closeTo(0.05, 0.00001);
+    expect(getSingleAlignmentQuality(geneA1, geneA2, getSimilarity)).to.be.closeTo(0.0005, 0.00001);
   });
 });
