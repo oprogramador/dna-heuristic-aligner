@@ -15,6 +15,14 @@ describe('getAllStartingNeighbors', () => {
         positionAtFirst: 2,
         positionAtSecond: 3,
       },
+      {
+        positionAtFirst: 3,
+        positionAtSecond: 4,
+      },
+      {
+        positionAtFirst: 2,
+        positionAtSecond: 5,
+      },
     ]);
   });
 
@@ -26,6 +34,14 @@ describe('getAllStartingNeighbors', () => {
       {
         positionAtFirst: 0,
         positionAtSecond: 3,
+      },
+      {
+        positionAtFirst: 1,
+        positionAtSecond: 4,
+      },
+      {
+        positionAtFirst: 0,
+        positionAtSecond: 5,
       },
     ]);
   });
@@ -39,6 +55,14 @@ describe('getAllStartingNeighbors', () => {
         positionAtFirst: 1,
         positionAtSecond: 0,
       },
+      {
+        positionAtFirst: 3,
+        positionAtSecond: 0,
+      },
+      {
+        positionAtFirst: 2,
+        positionAtSecond: 1,
+      },
     ]);
   });
 
@@ -46,6 +70,15 @@ describe('getAllStartingNeighbors', () => {
     const geneA1 = 'ACGTCCG';
     const geneA2 = 'TCACGTCCG';
 
-    expect(getAllStartingNeighbors(geneA1, geneA2, 0, 0)).to.deep.equal([]);
+    expect(getAllStartingNeighbors(geneA1, geneA2, 0, 0)).to.deep.equal([
+      {
+        positionAtFirst: 1,
+        positionAtSecond: 0,
+      },
+      {
+        positionAtFirst: 0,
+        positionAtSecond: 1,
+      },
+    ]);
   });
 });

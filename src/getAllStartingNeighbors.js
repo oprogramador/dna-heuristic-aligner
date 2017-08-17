@@ -1,25 +1,5 @@
 function getAllStartingNeighbors(first, second, positionAtFirst, positionAtSecond) {
-  if (positionAtFirst === 0 && positionAtSecond === 0) {
-    return [];
-  }
-  if (positionAtFirst === 0) {
-    return [
-      {
-        positionAtFirst,
-        positionAtSecond: positionAtSecond - 1,
-      },
-    ];
-  }
-  if (positionAtSecond === 0) {
-    return [
-      {
-        positionAtFirst: positionAtFirst - 1,
-        positionAtSecond,
-      },
-    ];
-  }
-
-  return [
+  const all = [
     {
       positionAtFirst: positionAtFirst - 1,
       positionAtSecond,
@@ -28,7 +8,22 @@ function getAllStartingNeighbors(first, second, positionAtFirst, positionAtSecon
       positionAtFirst,
       positionAtSecond: positionAtSecond - 1,
     },
+    {
+      positionAtFirst: positionAtFirst + 1,
+      positionAtSecond,
+    },
+    {
+      positionAtFirst,
+      positionAtSecond: positionAtSecond + 1,
+    },
   ];
+
+  return all.filter(item =>
+    item.positionAtFirst >= 0 &&
+    item.positionAtSecond >= 0 &&
+    item.positionAtFirst < first.length &&
+    item.positionAtSecond < second.length
+  );
 }
 
 export default getAllStartingNeighbors;
