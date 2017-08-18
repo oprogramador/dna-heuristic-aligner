@@ -136,7 +136,16 @@ function testExtending({ findEnd, findStart }) {
           positionAtFirst,
           positionAtSecond,
           shift,
-        } = findStart(first, second, geneK.length + 3, geneM.length + 3);
+        } = findStart(
+          first,
+          second,
+          {
+            beginAtFirst: geneK.length + 3,
+            beginAtSecond: geneM.length + 3,
+            endAtFirst: first.indexOf(geneL),
+            endAtSecond: second.indexOf(geneN),
+          }
+        );
 
         expect(shift).to.equal(3);
         expect(positionAtFirst).to.equal(geneK.length);
@@ -159,7 +168,16 @@ function testExtending({ findEnd, findStart }) {
           positionAtFirst,
           positionAtSecond,
           shift,
-        } = findStart(first, second, geneK.length + 3, geneM.length + 3);
+        } = findStart(
+          first,
+          second,
+          {
+            beginAtFirst: geneK.length + 3,
+            beginAtSecond: geneM.length + 3,
+            endAtFirst: first.indexOf(geneL),
+            endAtSecond: second.indexOf(geneN),
+          }
+        );
 
         expect(shift).to.equal(3);
         expect(positionAtFirst).to.equal(geneK.length);
@@ -182,7 +200,16 @@ function testExtending({ findEnd, findStart }) {
           positionAtFirst,
           positionAtSecond,
           shift,
-        } = findStart(first, second, geneK.length + 3, geneM.length + 3);
+        } = findStart(
+          first,
+          second,
+          {
+            beginAtFirst: geneK.length + 3,
+            beginAtSecond: geneM.length + 3,
+            endAtFirst: first.indexOf(geneL),
+            endAtSecond: second.indexOf(geneN),
+          }
+        );
 
         expect(shift).to.equal(3);
         expect(positionAtFirst).to.equal(geneK.length);
@@ -190,13 +217,13 @@ function testExtending({ findEnd, findStart }) {
       });
 
       it('finds start for replacement', () => {
-        const geneA1 = 'GAACCAAGAACCACCGGTCACATGCAGCTCGACAGTTATTGA';
-        const geneA2 = 'GAACCAAGAACCACCGGTCACATGAAGCTCGACAGTTATTGA';
+        const geneA1 = 'AAAGTCCGACAGAGTTTTATGAATGATTCCCAAATTCAAAAC';
+        const geneA2 = 'AAAGTCCGACAGAGTTTTACGAATGATTCCCAAATTCAAAAC';
 
-        const geneK = 'ACATCCATTTGCATGGAA';
+        const geneK = 'ACATCCATTTGCATAAAA';
         const geneL = 'GGCATAGAGGTGCGGAGCGCGGAT';
-        const geneM = 'TCTATCGATTCTCTCCGTGCT';
-        const geneN = 'GTAGCTCTGAATTGC';
+        const geneM = 'TCTATCGATTCTCTCCGGTTTTTTTTTTTTTTTTT';
+        const geneN = 'CAAAGGTGCCAGCAG';
 
         const first = `${geneK}${geneA1}${geneL}`;
         const second = `${geneM}${geneA2}${geneN}`;
@@ -205,7 +232,16 @@ function testExtending({ findEnd, findStart }) {
           positionAtFirst,
           positionAtSecond,
           shift,
-        } = findStart(first, second, geneK.length + 3, geneM.length + 3);
+        } = findStart(
+          first,
+          second,
+          {
+            beginAtFirst: geneK.length + 3,
+            beginAtSecond: geneM.length + 3,
+            endAtFirst: first.indexOf(geneL),
+            endAtSecond: second.indexOf(geneN),
+          }
+        );
 
         expect(shift).to.equal(3);
         expect(positionAtFirst).to.equal(geneK.length);
@@ -216,9 +252,9 @@ function testExtending({ findEnd, findStart }) {
         const geneA1 = 'AAAGTCCGACAGAGTTTTATGAATGATTCCCAAATTCAAAAC';
         const geneA2 = 'AAAGTCCGACAGAGTTTTATGAATGATGATTCCCAAATTCAAAAC';
 
-        const geneK = 'ACATCCATTTGCATGGAA';
+        const geneK = 'ACATCCATTTGCATAAAA';
         const geneL = 'GGCATAGAGGTGCGGAGCGCGGAT';
-        const geneM = 'TCTATCGATTCTCTCCGTGCT';
+        const geneM = 'TCTATCGATTCTCTCCGGGGG';
         const geneN = 'CAAAGGTGCCAGCAG';
 
         const first = `${geneK}${geneA1}${geneL}`;
@@ -228,7 +264,16 @@ function testExtending({ findEnd, findStart }) {
           positionAtFirst,
           positionAtSecond,
           shift,
-        } = findStart(first, second, geneK.length + 3, geneM.length + 3);
+        } = findStart(
+          first,
+          second,
+          {
+            beginAtFirst: geneK.length + 3,
+            beginAtSecond: geneM.length + 3,
+            endAtFirst: first.indexOf(geneL),
+            endAtSecond: second.indexOf(geneN),
+          }
+        );
 
         expect(shift).to.equal(3);
         expect(positionAtFirst).to.equal(geneK.length);
