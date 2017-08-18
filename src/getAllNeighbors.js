@@ -1,15 +1,11 @@
 function getAllNeighbors({
-  distance,
+  distance = 1,
   maxFirst,
   maxSecond,
-  minFirst,
-  minSecond,
+  minFirst = 0,
+  minSecond = 0,
   positionAtFirst,
   positionAtSecond,
-} = {
-  distance: 1,
-  minFirst: 0,
-  minSecond: 0,
 }) {
   const all = [
     {
