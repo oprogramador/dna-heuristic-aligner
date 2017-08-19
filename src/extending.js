@@ -13,7 +13,7 @@ const extend = (first, second, positionAtFirst, positionAtSecond, { direction, m
     } else {
       const newPosition = positionAtFirst + maxLeak * direction;
       const alignmentAfterLeak = first.substr(newPosition, minLengthAfterLeak);
-      const newPositionAtSecond = second.indexOf(alignmentAfterLeak);
+      const newPositionAtSecond = second.indexOf(alignmentAfterLeak, positionAtSecond);
       if (
         direction * newPositionAtSecond > direction * positionAtSecond &&
         direction * newPositionAtSecond <= direction * (positionAtSecond + maxLeak * 2)
