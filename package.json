@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "DNA alignment tool using heuristic algorithms",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=8"
+  },
   "scripts": {
     "create-project-symlink": "scripts/create-project-symlink.sh",
     "generateMutations": "node -r babel-register src/command/generateMutations.js",

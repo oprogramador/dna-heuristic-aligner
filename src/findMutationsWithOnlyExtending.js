@@ -26,6 +26,7 @@ function findMutationsWithOnlyExtending(
 ) {
   const maxTimes = Math.ceil(first.length / initialLength);
   const currentProcessKey = createCurrentProcessKey(firstSource, secondSource);
+  logger.info({ currentProcessKey });
 
   return Promise.all([
     manager.getComplex(rootKey, 2),
