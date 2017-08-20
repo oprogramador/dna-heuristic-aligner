@@ -1,3 +1,5 @@
+import indexOf from 'indexof-limited';
+
 const extend = (first, second, positionAtFirst, positionAtSecond, { direction, maxLeak, minLengthAfterLeak }) => {
   let shift = 0;
   // eslint-disable-next-line no-constant-condition
@@ -13,7 +15,12 @@ const extend = (first, second, positionAtFirst, positionAtSecond, { direction, m
     } else {
       const newPosition = positionAtFirst + maxLeak * direction;
       const alignmentAfterLeak = first.substr(newPosition, minLengthAfterLeak);
-      const newPositionAtSecond = second.indexOf(alignmentAfterLeak, positionAtSecond);
+      const newPositionAtSecond = indexOf(
+        second,
+        alignmentAfterLeak,
+        positionAtFirst - maxLeak * 2 - minLengthAfterLeak,
+        positionAtSecond + maxLeak * 2 + minLengthAfterLeak,
+      );
       if (
         direction * newPositionAtSecond > direction * positionAtSecond &&
         direction * newPositionAtSecond <= direction * (positionAtSecond + maxLeak * 2)
