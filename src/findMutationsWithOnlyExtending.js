@@ -14,10 +14,11 @@ async function findMutationsWithOnlyExtending(
   second,
   {
     firstSource,
-    secondSource,
-    manager,
+    info,
     mainKey: defaultMainKey,
+    manager,
     rootKey,
+    secondSource,
   }
 ) {
   const maxTimes = Math.ceil(first.length / initialLength);
@@ -29,6 +30,7 @@ async function findMutationsWithOnlyExtending(
     manager.getComplex(currentProcessKey),
   ]);
   const { iterationNr, mainKey } = currentProcess || { iterationNr: 0, mainKey: defaultMainKey };
+  await manager.setComplex(mainKey, { info });
   await manager.setComplex(rootKey, [...(root || []), mainKey]);
   for (let currentIteration = iterationNr + 1; currentIteration < maxTimes; currentIteration++) {
     if (currentIteration % 100 === 0) {
@@ -84,6 +86,7 @@ async function findMutationsWithOnlyExtending(
       }
     }
   }
+  logger.info({ mainKey });
 }
 
 export default findMutationsWithOnlyExtending;

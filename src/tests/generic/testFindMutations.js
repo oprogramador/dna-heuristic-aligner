@@ -81,8 +81,13 @@ function testFindMutations(findMutations) {
 
       const first = `${geneA1}${geneK}${geneB1}${geneL}${geneC1}`;
       const second = `${geneA2}${geneL}${geneB2}${geneM}${geneC2}`;
+      const info = {
+        bar: 'bar-1',
+        foo: 'foo-1',
+      };
 
       const expectedMutations = {
+        info,
         [first.indexOf(geneA1)]: {
           mutations: {
             40: {
@@ -144,6 +149,7 @@ function testFindMutations(findMutations) {
         second,
         {
           generateRandomInteger: generateFakeIntegerFunction(),
+          info,
           mainKey,
           manager,
           maxTimes: 1000,
@@ -193,8 +199,13 @@ function testFindMutations(findMutations) {
       const first = `${geneA1}${geneL}${geneB1}${geneM}${geneC1}${geneN}${geneD1}${geneK}${geneE1}${geneL}${geneF1}${geneM}${geneG1}${geneN}${geneH1}${geneK}${geneI1}${geneL}${geneJ1}`;
       // eslint-disable-next-line max-len
       const second = `${geneA2}${geneN}${geneB2}${geneK}${geneC2}${geneL}${geneD2}${geneM}${geneE2}${geneN}${geneF2}${geneK}${geneG2}${geneL}${geneH2}${geneM}${geneI2}${geneN}${geneJ2}`;
+      const info = {
+        bar: 'bar-1',
+        foo: 'foo-1',
+      };
 
       const expectedMutations = {
+        info,
         [first.indexOf(geneA1)]: {
           mutations: {
             48: {
@@ -382,6 +393,7 @@ function testFindMutations(findMutations) {
         second,
         {
           generateRandomInteger: generateFakeIntegerFunction(),
+          info,
           mainKey,
           manager,
           maxTimes: 1000,
