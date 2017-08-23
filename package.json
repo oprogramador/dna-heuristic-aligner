@@ -13,6 +13,7 @@
     "lint": "eslint src",
     "postinstall": "npm run create-project-symlink",
     "read-from-database": "node -r babel-register src/command/readFromDatabase.js",
+    "show-subsequence": "node -r babel-register src/command/showSubsequence.js",
     "start": "node -r babel-register src/index.js",
     "test": "mocha -r babel-register --recursive src/tests --timeout 5000"
   },
