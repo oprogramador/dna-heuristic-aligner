@@ -18,7 +18,7 @@ const manager = new AdvancedManager(new LevelSimpleManager(db), logger);
   const result = await (async () => {
     const data = await manager.getComplex(key);
     if (way === 'allMutationsIndexesAtFirstSequence') {
-      return _.flatten(_.values(data).map(alignment => Object.keys(alignment.mutations || [])));
+      return _.sortBy(_.flatten(_.values(data).map(alignment => Object.keys(alignment.mutations || []))).map(Number));
     }
 
     return data;
