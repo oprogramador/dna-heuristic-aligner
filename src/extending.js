@@ -6,6 +6,10 @@ const extend = (first, second, positionAtFirst, positionAtSecond, { direction, m
   while (true) {
     if (
       first[positionAtFirst + direction] === second[positionAtSecond + direction] &&
+      (
+        direction < 0 ||
+        first[positionAtFirst + direction] !== 'N'
+      ) &&
       first[positionAtFirst + direction] &&
       second[positionAtSecond + direction]
     ) {

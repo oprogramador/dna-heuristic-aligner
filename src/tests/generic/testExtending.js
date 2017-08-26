@@ -3,6 +3,53 @@ import expect from 'dna-heuristic-aligner/tests/expect';
 function testExtending({ findEnd, findStart }) {
   describe('extending', () => {
     describe('.findEnd', () => {
+      it('finds end for N', () => {
+        const geneA1 = 'GAACCAAGAACCACCGGTCACATGNAGCTCGACAGTTATTGA';
+        const geneA2 = 'GAACCAAGAACCACCGGTCACATGNAGCTCGACAGTTATTGA';
+
+        const geneK = 'ACATCCATTTGCATGGAA';
+        const geneL = 'GGCATAGAGGTGCGGAGCGCGGAT';
+        const geneM = 'TCTATCGATTCTCTCCGTGCT';
+        const geneN = 'ATAGTCCGTAGCGTT';
+
+        const first = `${geneK}${geneA1}${geneL}`;
+        const second = `${geneM}${geneA2}${geneN}`;
+
+        const {
+          positionAtFirst,
+          positionAtSecond,
+          shift,
+        } = findEnd(first, second, geneK.length + 3, geneM.length + 3);
+
+        expect(shift).to.equal(geneA1.length - 4);
+        expect(positionAtFirst).to.equal(first.indexOf(geneL) - 1);
+        expect(positionAtSecond).to.equal(second.indexOf(geneN) - 1);
+      });
+
+      it('stops for long N sequence', () => {
+        const geneA1 = 'GAACCAAGAACCACCGGTCACATGNNNNNNNNCAGTTATTGA';
+        const geneA2 = 'GAACCAAGAACCACCGGTCACATGNNNNNNNNCAGTTATTGA';
+
+        const geneK = 'ACATCCATTTGCATGGAA';
+        const geneL = 'GGCATAGAGGTGCGGAGCGCGGAT';
+        const geneM = 'TCTATCGATTCTCTCCGTGCT';
+        const geneN = 'ATAGTCCGTAGCGTT';
+
+        const first = `${geneK}${geneA1}${geneL}`;
+        const second = `${geneM}${geneA2}${geneN}`;
+
+        const {
+          positionAtFirst,
+          positionAtSecond,
+          shift,
+        } = findEnd(first, second, geneK.length + 3, geneM.length + 3);
+        const maxLeak = 5;
+
+        expect(shift).to.equal(geneA1.indexOf('N') - 4 + maxLeak);
+        expect(positionAtFirst).to.equal(first.indexOf('N') - 1 + maxLeak);
+        expect(positionAtSecond).to.equal(second.indexOf('N') - 1 + maxLeak);
+      });
+
       it('finds end for no mutation', () => {
         const geneA1 = 'GAGGGATCTACCGGCCCCGTACAATAC';
         const geneA2 = geneA1;
