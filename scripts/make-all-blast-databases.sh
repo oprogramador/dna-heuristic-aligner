@@ -3,7 +3,7 @@ set -e
 
 cd `dirname $(which $0)`
 cd ..
-cd data
+cd $DNA_DATA_DIR
 
 for file in *.fa
 do
