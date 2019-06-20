@@ -26,12 +26,10 @@ function getAllNeighbors({
     },
   ];
 
-  return all.filter(item =>
-    item.positionAtFirst >= minFirst &&
-    item.positionAtSecond >= minSecond &&
-    item.positionAtFirst <= maxFirst &&
-    item.positionAtSecond <= maxSecond
-  );
+  return all.filter(item => item.positionAtFirst >= minFirst
+    && item.positionAtSecond >= minSecond
+    && item.positionAtFirst <= maxFirst
+    && item.positionAtSecond <= maxSecond);
 }
 
 export default getAllNeighbors;

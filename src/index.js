@@ -46,5 +46,5 @@ strategy(
     maxTimes: 20000,
     rootKey,
     secondSource,
-  }
+  },
 );

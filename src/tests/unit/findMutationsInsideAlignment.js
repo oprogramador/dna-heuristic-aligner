@@ -13,8 +13,9 @@ describe('findMutationsInsideAlignment', () => {
       sequenceAtSecond: `${subsequenceA}${subsequenceB}`,
     };
 
-    const positionAtFirst =
-      alignment.positionAtFirst + alignment.sequenceAtFirst.indexOf(subsequenceB) - deleted.length;
+    const positionAtFirst = alignment.positionAtFirst
+      + alignment.sequenceAtFirst.indexOf(subsequenceB)
+      - deleted.length;
     const positionAtSecond = alignment.positionAtSecond + alignment.sequenceAtSecond.indexOf(subsequenceB);
     const expected = {
       [positionAtFirst]: {
@@ -41,8 +42,9 @@ describe('findMutationsInsideAlignment', () => {
     };
 
     const positionAtFirst = alignment.positionAtFirst + alignment.sequenceAtFirst.indexOf(subsequenceB);
-    const positionAtSecond =
-      alignment.positionAtSecond + alignment.sequenceAtSecond.indexOf(subsequenceB) - inserted.length;
+    const positionAtSecond = alignment.positionAtSecond
+      + alignment.sequenceAtSecond.indexOf(subsequenceB)
+      - inserted.length;
     const expected = {
       [positionAtFirst]: {
         positionAtFirst,
@@ -68,10 +70,12 @@ describe('findMutationsInsideAlignment', () => {
       sequenceAtSecond: `${subsequenceA}${replaced}${subsequenceB}`,
     };
 
-    const positionAtFirst =
-      alignment.positionAtFirst + alignment.sequenceAtFirst.indexOf(subsequenceB) - original.length;
-    const positionAtSecond =
-      alignment.positionAtSecond + alignment.sequenceAtSecond.indexOf(subsequenceB) - replaced.length;
+    const positionAtFirst = alignment.positionAtFirst
+      + alignment.sequenceAtFirst.indexOf(subsequenceB)
+      - original.length;
+    const positionAtSecond = alignment.positionAtSecond
+      + alignment.sequenceAtSecond.indexOf(subsequenceB)
+      - replaced.length;
     const expected = {
       [positionAtFirst]: {
         positionAtFirst,
