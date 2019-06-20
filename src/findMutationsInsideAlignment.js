@@ -4,11 +4,13 @@ function findMutationsInsideAlignment(alignment) {
   const diff = diffChars(alignment.sequenceAtFirst, alignment.sequenceAtSecond);
 
   return diff.reduce(
-    ({ lastDiff, lastMutation, mutations, positionAtFirst, positionAtSecond }, current) => {
+    ({
+      lastDiff, lastMutation, mutations, positionAtFirst, positionAtSecond,
+    }, current) => {
       if (
-        lastDiff &&
-        (current.added || current.removed) &&
-        (lastDiff.added || lastDiff.removed)
+        lastDiff
+        && (current.added || current.removed)
+        && (lastDiff.added || lastDiff.removed)
       ) {
         delete mutations[lastMutation.positionAtFirst];
 
@@ -76,7 +78,7 @@ function findMutationsInsideAlignment(alignment) {
       mutations: {},
       positionAtFirst: alignment.positionAtFirst,
       positionAtSecond: alignment.positionAtSecond,
-    }
+    },
   )
     .mutations;
 }

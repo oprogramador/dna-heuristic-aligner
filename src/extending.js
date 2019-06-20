@@ -5,13 +5,13 @@ const extend = (first, second, positionAtFirst, positionAtSecond, { direction, m
   // eslint-disable-next-line no-constant-condition
   while (true) {
     if (
-      first[positionAtFirst + direction] === second[positionAtSecond + direction] &&
-      (
-        direction < 0 ||
-        first[positionAtFirst + direction] !== 'N'
-      ) &&
-      first[positionAtFirst + direction] &&
-      second[positionAtSecond + direction]
+      first[positionAtFirst + direction] === second[positionAtSecond + direction]
+      && (
+        direction < 0
+        || first[positionAtFirst + direction] !== 'N'
+      )
+      && first[positionAtFirst + direction]
+      && second[positionAtSecond + direction]
     ) {
       positionAtFirst += direction;
       positionAtSecond += direction;
@@ -26,8 +26,8 @@ const extend = (first, second, positionAtFirst, positionAtSecond, { direction, m
         positionAtSecond + maxLeak * 2 + minLengthAfterLeak,
       );
       if (
-        direction * newPositionAtSecond > direction * positionAtSecond &&
-        direction * newPositionAtSecond <= direction * (positionAtSecond + maxLeak * 2)
+        direction * newPositionAtSecond > direction * positionAtSecond
+        && direction * newPositionAtSecond <= direction * (positionAtSecond + maxLeak * 2)
       ) {
         positionAtSecond = newPositionAtSecond;
         positionAtFirst = newPosition;
@@ -45,11 +45,33 @@ const extend = (first, second, positionAtFirst, positionAtSecond, { direction, m
   };
 };
 
-const findStart = (first, second, positionAtFirst, positionAtSecond, { maxLeak = 5, minLengthAfterLeak = 10 } = {}) =>
-  extend(first, second, positionAtFirst, positionAtSecond, { direction: -1, maxLeak, minLengthAfterLeak });
+const findStart = (
+  first,
+  second,
+  positionAtFirst,
+  positionAtSecond,
+  { maxLeak = 5, minLengthAfterLeak = 10 } = {},
+) => extend(
+  first,
+  second,
+  positionAtFirst,
+  positionAtSecond,
+  { direction: -1, maxLeak, minLengthAfterLeak },
+);
 
-const findEnd = (first, second, positionAtFirst, positionAtSecond, { maxLeak = 5, minLengthAfterLeak = 10 } = {}) =>
-  extend(first, second, positionAtFirst, positionAtSecond, { direction: 1, maxLeak, minLengthAfterLeak });
+const findEnd = (
+  first,
+  second,
+  positionAtFirst,
+  positionAtSecond,
+  { maxLeak = 5, minLengthAfterLeak = 10 } = {},
+) => extend(
+  first,
+  second,
+  positionAtFirst,
+  positionAtSecond,
+  { direction: 1, maxLeak, minLengthAfterLeak },
+);
 
 export {
   findEnd,

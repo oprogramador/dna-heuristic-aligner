@@ -19,4 +19,3 @@ describe('sumSequencesLength', () => {
     expect(sumSequencesLength(data)).to.equal(expected);
   });
 });
-

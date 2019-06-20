@@ -6,8 +6,10 @@ const initialLength = 10;
 
 const generateRandomInteger = i => i * initialLength;
 
-const createCurrentProcessKey = (firstSource, secondSource) =>
-  `current-process-${JSON.stringify({ firstSource, secondSource })}`;
+const createCurrentProcessKey = (firstSource, secondSource) => `current-process-${JSON.stringify({
+  firstSource,
+  secondSource,
+})}`;
 
 async function findMutationsWithOnlyExtending(
   first,
@@ -19,7 +21,7 @@ async function findMutationsWithOnlyExtending(
     manager,
     rootKey,
     secondSource,
-  }
+  },
 ) {
   const maxTimes = Math.ceil(first.length / initialLength);
   const currentProcessKey = createCurrentProcessKey(firstSource, secondSource);
@@ -34,7 +36,9 @@ async function findMutationsWithOnlyExtending(
   await manager.setComplex(rootKey, [...(root || []), mainKey]);
   for (let currentIteration = iterationNr + 1; currentIteration < maxTimes; currentIteration++) {
     if (currentIteration % 100 === 0) {
-      logger.info({ firstSource, i: currentIteration, maxTimes, secondSource });
+      logger.info({
+        firstSource, i: currentIteration, maxTimes, secondSource,
+      });
       manager.setComplex(currentProcessKey, { iterationNr: currentIteration, mainKey });
     }
     const start = generateRandomInteger(currentIteration) % first.length;
@@ -53,11 +57,11 @@ async function findMutationsWithOnlyExtending(
         positionAtSecond: foundStart.positionAtSecond,
         sequenceAtFirst: first.substr(
           foundStart.positionAtFirst,
-          sequenceToSearch.length + foundStart.shift + foundEnd.shift
+          sequenceToSearch.length + foundStart.shift + foundEnd.shift,
         ),
         sequenceAtSecond: second.substr(
           foundStart.positionAtSecond,
-          sequenceToSearch.length + foundStart.shift + foundEnd.shift
+          sequenceToSearch.length + foundStart.shift + foundEnd.shift,
         ),
       };
 
@@ -70,12 +74,12 @@ async function findMutationsWithOnlyExtending(
 
       foundSequence.sequenceAtSecond = second.substr(
         foundStart.positionAtSecond,
-        sequenceToSearch.length + foundStart.shift + foundEnd.shift + diffShift
+        sequenceToSearch.length + foundStart.shift + foundEnd.shift + diffShift,
       );
 
       if (
-        foundSequence.sequenceAtFirst.length >= initialLength &&
-        foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
+        foundSequence.sequenceAtFirst.length >= initialLength
+        && foundSequence.sequenceAtFirst !== foundSequence.sequenceAtSecond
       ) {
         const mutations = findMutationsInsideAlignment(foundSequence);
         foundSequence.mutations = mutations;

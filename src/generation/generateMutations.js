@@ -1,15 +1,16 @@
 import _ from 'lodash';
 import generateRandomSequence from 'dna-heuristic-aligner/generation/generateRandomSequence';
 
-const generateRandomLength = () => Math.ceil(-1 / Math.log(Math.pow(Math.random(), 2)));
-const removeRandom = sequenceAsArray =>
-  sequenceAsArray.splice(_.random(sequenceAsArray.length - 1), generateRandomLength());
-const insertRandom = sequenceAsArray =>
-  sequenceAsArray.splice(
-    _.random(sequenceAsArray.length - 1),
-    0,
-    ...generateRandomSequence(generateRandomLength()).split('')
-  );
+const generateRandomLength = () => Math.ceil(-1 / Math.log(Math.random() ** 2));
+const removeRandom = sequenceAsArray => sequenceAsArray.splice(
+  _.random(sequenceAsArray.length - 1),
+  generateRandomLength(),
+);
+const insertRandom = sequenceAsArray => sequenceAsArray.splice(
+  _.random(sequenceAsArray.length - 1),
+  0,
+  ...generateRandomSequence(generateRandomLength()).split(''),
+);
 const replaceRandom = (sequenceAsArray) => {
   const length = generateRandomLength();
   sequenceAsArray.splice(_.random(sequenceAsArray.length - 1), length, ...generateRandomSequence(length).split(''));

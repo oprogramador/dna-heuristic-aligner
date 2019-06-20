@@ -8,7 +8,7 @@ const count = process.argv[3];
 
 const mutated = writeFASTA(
   parseFASTA(fs.readFileSync(sequenceName).toString())
-    .map(dna => Object.assign({}, dna, { sequence: generateMutations(dna.sequence, count) }))
+    .map(dna => Object.assign({}, dna, { sequence: generateMutations(dna.sequence, count) })),
 );
 
 // eslint-disable-next-line no-console
