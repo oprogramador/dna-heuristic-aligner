@@ -44,7 +44,7 @@
     "chai-subset": "^1.6.0",
     "dirty-chai": "^2.0.1",
     "eslint": "^5.16.0",
-    "eslint-config-airbnb-improved": "^4.0.6",
+    "eslint-config-airbnb-improved": "^4.0.7",
     "jsonlint": "^1.6.3",
     "mocha": "^6.1.4",
     "rimraf": "^2.6.3",
