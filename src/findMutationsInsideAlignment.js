@@ -25,7 +25,7 @@ function findMutationsInsideAlignment(alignment) {
         return {
           lastDiff: current,
           lastMutation: mutation,
-          mutations: Object.assign({}, mutations, { [lastMutation.positionAtFirst]: mutation }),
+          mutations: { ...mutations, [lastMutation.positionAtFirst]: mutation },
           positionAtFirst: positionAtFirst + (current.deleted ? current.count : 0),
           positionAtSecond: positionAtSecond + (current.added ? current.count : 0),
         };
@@ -42,7 +42,7 @@ function findMutationsInsideAlignment(alignment) {
         return {
           lastDiff: current,
           lastMutation: mutation,
-          mutations: Object.assign({}, mutations, { [positionAtFirst]: mutation }),
+          mutations: { ...mutations, [positionAtFirst]: mutation },
           positionAtFirst,
           positionAtSecond: positionAtSecond + current.count,
         };
@@ -59,7 +59,7 @@ function findMutationsInsideAlignment(alignment) {
         return {
           lastDiff: current,
           lastMutation: mutation,
-          mutations: Object.assign({}, mutations, { [positionAtFirst]: mutation }),
+          mutations: { ...mutations, [positionAtFirst]: mutation },
           positionAtFirst: positionAtFirst + current.count,
           positionAtSecond,
         };
