@@ -8,14 +8,14 @@
   },
   "scripts": {
     "create-project-symlink": "scripts/create-project-symlink.sh",
-    "generateMutations": "node -r babel-register src/command/generateMutations.js",
-    "generateRandomSequence": "node -r babel-register src/command/generateRandomSequence.js",
+    "generateMutations": "node -r @babel/register src/command/generateMutations.js",
+    "generateRandomSequence": "node -r @babel/register src/command/generateRandomSequence.js",
     "lint": "eslint src",
     "postinstall": "npm run create-project-symlink",
-    "read-from-database": "node -r babel-register src/command/readFromDatabase.js",
-    "show-subsequence": "node -r babel-register src/command/showSubsequence.js",
-    "start": "node -r babel-register src/index.js",
-    "test": "mocha -r babel-register --recursive src/tests --timeout 5000"
+    "read-from-database": "node -r @babel/register src/command/readFromDatabase.js",
+    "show-subsequence": "node -r @babel/register src/command/showSubsequence.js",
+    "start": "node -r @babel/register src/index.js",
+    "test": "mocha -r @babel/register --recursive src/tests --timeout 5000"
   },
   "repository": {
     "type": "git",
@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/oprogramador/dna-heuristic-aligner#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "7.0.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-string": "^1.5.0",
