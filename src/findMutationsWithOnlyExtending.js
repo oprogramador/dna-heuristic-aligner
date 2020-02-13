@@ -86,7 +86,7 @@ async function findMutationsWithOnlyExtending(
         const key = foundStart.positionAtFirst;
 
         const result = await manager.getComplex(mainKey, 1);
-        await manager.setComplex(mainKey, Object.assign({}, result, { [key]: foundSequence }));
+        await manager.setComplex(mainKey, { ...result, [key]: foundSequence });
       }
     }
   }
